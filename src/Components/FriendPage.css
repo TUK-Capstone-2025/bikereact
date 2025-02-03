@@ -1,0 +1,23 @@
+.friend-page-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .friend-page-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .friend-page-container li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .friend-page-container button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

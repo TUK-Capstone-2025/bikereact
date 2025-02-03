@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./Components/Login";
+import MainPage from "./Components/MainPage";
+import Social from "./Components/Social";
+import FriendPage from "./Components/FriendPage";
+import RidePage from "./Components/RidePage";
+import PhotoPage from "./Components/PhotoPage";
+import "leaflet/dist/leaflet.css"
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+      {isLoggedIn ? (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage onLogout={() => setIsLoggedIn(false)} />} />
+        <Route path="/social" element={<Social />} />
+        <Route path="/friend/:friendId" element={<FriendPage />} />
+        <Route path="/ride/:rideId" element={<RidePage />} />
+        <Route path="/photo/:photoId" element={<PhotoPage />} />
+      </Routes>
+    </Router>
+      ) : (
+        <Login onLogin={() => setIsLoggedIn(true)} onSkip={() => setIsLoggedIn(true)} />
+      )}
+      </div>
   );
-}
+};
 
 export default App;

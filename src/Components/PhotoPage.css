@@ -1,0 +1,19 @@
+.photo-page-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .photo-large {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
