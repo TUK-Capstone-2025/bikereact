@@ -9,7 +9,8 @@
   }
   
   .ride-item {
-    background-color: #f0f0f0;
+    background-color: #0F429D;
+    color: white;
     padding: 20px;
     border-radius: 12px;
     cursor: pointer;

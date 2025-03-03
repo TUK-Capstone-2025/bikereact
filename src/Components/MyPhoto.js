@@ -8,15 +8,20 @@ const MyPhoto = () => {
   const { photo } = location.state || {}; // Get photo details
 
   if (!photo) {
-    return <div>Photo not found!</div>;
+    return <div className="photo-detail-container">Photo not found!</div>;
   }
 
   return (
     <div className="photo-detail-container">
-      <h1>사진 상세</h1>
+      {/* Dark blue header */}
+      <div className="photo-header">
+        <h1>사진 상세</h1>
+      </div>
+
+      {/* Photo and info container */}
       <div className="photo-info">
         <img src={photo.imageUrl || defaultPhoto} alt="Photo" className="photo-img" />
-        <p><strong>위치:</strong> {photo.description}</p>
+        <p><strong>위치:</strong> {photo.description || "위치 정보 없음"}</p>
       </div>
     </div>
   );

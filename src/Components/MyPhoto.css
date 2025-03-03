@@ -1,14 +1,40 @@
 .photo-detail-container {
+    background-color: white;
     padding: 20px;
     text-align: center;
   }
   
-  .photo-info p {
-    font-size: 18px;
-    margin-top: 10px;
+  .photo-header {
+    background-color: #0F429D; /* Dark blue */
+    color: white;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .photo-info {
+    background: #f9f9f9; /* Light gray background for better readability */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: left;
+    max-width: 500px;
   }
   
   .photo-img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
+  
+  .photo-info p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #333;
+    line-height: 1.6;
+  }
+  
