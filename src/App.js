@@ -10,6 +10,7 @@ import RidePage from "./Components/RidePage";
 import PhotoPage from "./Components/PhotoPage";
 import MyRideList from "./Components/MyRideList";
 import MyRide from "./Components/MyRide";
+import MyPhoto from "./Components/MyPhoto";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="/photo/:photoId" element={<PhotoPage />} />
               <Route path="/myridelist" element={<MyRideList />} />
               <Route path="/myride/:rideId" element={<MyRide />} />
+              <Route path="/myphoto/:photoId" element={<MyPhoto />} />
               {/* Catch-all route for invalid paths */}
               <Route path="*" element={<Navigate to="/" />} />
             </>

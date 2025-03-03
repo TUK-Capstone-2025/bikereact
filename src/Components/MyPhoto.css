@@ -1,0 +1,14 @@
+.photo-detail-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .photo-info p {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .photo-img {
+    max-width: 100%;
+    height: auto;
+  }
