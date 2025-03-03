@@ -9,6 +9,13 @@ const MyRide = () => {
   const location = useLocation();
   const coordinates = location.state?.coordinates || [];
 
+  // Dummy data for ride details (you can replace it with real data)
+  const rideDetails = {
+    name: "아침 라이딩", // Example name
+    distance: "12 km",  // Example distance
+    duration: "40분",   // Example duration
+  };
+
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -34,6 +41,13 @@ const MyRide = () => {
 
   return (
     <div className="ride-detail-container">
+      {/* Detailed Information */}
+      <div className="ride-info">
+        <p><strong>라이딩 이름:</strong> {rideDetails.name}</p>
+        <p><strong>거리:</strong> {rideDetails.distance}</p>
+        <p><strong>시간:</strong> {rideDetails.duration}</p>
+      </div>
+
       <div id="map"></div>
     </div>
   );
