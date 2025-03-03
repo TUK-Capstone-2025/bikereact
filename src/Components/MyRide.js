@@ -34,7 +34,6 @@ const MyRide = () => {
 
   return (
     <div className="ride-detail-container">
-      <h1>주행 기록 {rideId}</h1>
       <div id="map"></div>
     </div>
   );

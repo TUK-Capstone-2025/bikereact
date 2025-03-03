@@ -51,13 +51,12 @@ const MyRideList = () => {
 
   return (
     <div className="my-rides-container">
-      <h1>나의 주행 기록</h1>
       <div className="rides-list">
         {rides.map((ride) => (
           <div
             key={ride.id}
             className="ride-item"
-            onClick={() => navigate(`/ride/${ride.id}`, { state: { coordinates: ride.coordinates } })}
+            onClick={() => navigate(`/myride/${ride.id}`, { state: { coordinates: ride.coordinates } })}
           >
             <h2>{ride.name}</h2>
             <p>
