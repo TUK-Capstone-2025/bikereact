@@ -1,52 +1,65 @@
 .login-container {
-    width: 300px;
-    margin: 100px auto;
-    padding: 20px;
-    text-align: center;
-    background-color: #f4f4f4;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  .skip-button {
-    margin-top: 10px;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .skip-button:hover {
-    background-color: #218838;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 10px;
+  background-color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #0F429D;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0c3579;
+}
+
+.register-button { 
+  font-size: 14px;
+  font-weight: normal;
+  background-color: transparent;
+  color: #0F429D;
+  text-decoration: underline;
+}
+
+.register-button:hover {
+  text-decoration: none;
+}
+
+.skip-button {
+  width: auto;
+  padding: 8px 12px; /* Smaller padding */
+  background-color: #888;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.skip-button:hover {
+  background-color: #666;
+}

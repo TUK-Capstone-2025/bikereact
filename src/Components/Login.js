@@ -1,19 +1,26 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const Login = ({ onLogin, onSkip }) => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Logging in with:", email, password);
-    onLogin(email);
+    onLogin();
+    navigate("/");
+  };
+
+  const handleSkip = () => {
+    onLogin();
+    navigate("/");
   };
 
   return (
     <div className="login-container">
-      <h2>로그인</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -29,9 +36,12 @@ const Login = ({ onLogin, onSkip }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">로그인</button>
+        <button type="submit" className="login-button">로그인</button>
       </form>
-      <button onClick={onSkip} className="skip-button">
+      <button className="register-button" onClick={() => navigate("/register")}>
+        회원가입
+      </button>
+      <button onClick={handleSkip} className="skip-button">
         로그인 스킵(관리자용)
       </button>
     </div>

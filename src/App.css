@@ -1,0 +1,5 @@
+/* Ensure all content starts below the navbar */
+.page-container {
+    padding-top: 50px; /* Adjust this value to match your navbar height */
+  }
+  
