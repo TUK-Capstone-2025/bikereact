@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Login from "./Components/Login";
@@ -14,6 +14,26 @@ import MyPhoto from "./Components/MyPhoto";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [data, setData] = useState([]);
+  const dataId = useRef(0);  
+
+  const getData = async () => {
+    const res = await fetch(
+      "https://3cf0-210-99-254-13.ngrok-free.app"
+    ).then((res) => res.json());
+
+    const initData = res.slice(0, 20).map((it) => {
+      return {
+        author: it.email,
+        content: it.body,
+        emotion: Math.floor(Math.random() * 5) + 1,
+        created_date: new Date().getTime(),
+        id: dataId.current++,
+      };
+    });
+    setData(initData);
+  };
 
   return (
     <Router>
