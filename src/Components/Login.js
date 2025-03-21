@@ -14,10 +14,10 @@ const Login = ({ onLogin }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("https://3cf0-210-99-254-13.ngrok-free.app/api/member/login", {
+      const response = await fetch("", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${your.jwt.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ userId, password }), 
@@ -29,8 +29,8 @@ const Login = ({ onLogin }) => {
         console.log("Login successful:", data);
         onLogin({ userId }); // Pass user data to parent component
         navigate("/"); // Redirect to main page
-      } else {
-        setError("로그인 실패"); // Generic error message
+      }else{
+
       }
     } catch (err) {
       setError(`네트워크 오류: ${err.message}`);
