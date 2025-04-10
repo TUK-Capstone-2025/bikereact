@@ -9,65 +9,62 @@ export const AuthApi = axios.create({
     },
 });
 
-// 🔹 Interceptor: Attach token to all requests
 AuthApi.interceptors.request.use((config) => {
-    const ACCESS_TOKEN = localStorage.getItem("accessToken") || "";
+    const ACCESS_TOKEN = localStorage.getItem("accessToken");
     if (ACCESS_TOKEN) {
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
     }
     return config;
-});
+}, (error) => Promise.reject(error));
 
-/** 🔹 LOGIN API */
 export const login = async ({ userId, password }) => {
     try {
         const response = await AuthApi.post("/member/login", { userId, password });
+        console.log("서버 응답:", response.data);
 
-        console.log("Raw Response: ", response);
+        const accessToken = response?.data?.data;
 
-        if (!response.data || !response.data.data) {
-            throw new Error("Invalid response format from server.");
+        if (
+            typeof accessToken !== "string" ||
+            !accessToken.includes(".") ||
+            accessToken.split(".").length !== 3
+        ) {
+            throw new Error("올바르지 않은 JWT 토큰입니다.");
         }
 
-        const accessToken = response.data.data;
-        if (!accessToken) {
-            throw new Error("Access token not received from the server.");
-        }
-
-        // ✅ Store token
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("tokenType", "Bearer");
 
+        console.log("로그인 성공, 토큰 저장 완료");
         return { accessToken, tokenType: "Bearer" };
     } catch (error) {
-        console.error("Auth login error: ", error);
+        console.error("로그인 실패:", error?.response?.data || error.message);
         throw error;
     }
 };
 
-/** 🔹 SIGNUP API */
 export const register = async (userData) => {
     try {
         const response = await AuthApi.post("/member/register", userData);
+        console.log("서버 응답:", response.data);
 
-        console.log("Signup Response: ", response);
+        const accessToken = response?.data?.data;
 
-        if (!response.data || !response.data.data) {
-            throw new Error("Invalid response format from server.");
+        if (
+            typeof accessToken !== "string" ||
+            !accessToken.includes(".") ||
+            accessToken.split(".").length !== 3
+        ) {
+            throw new Error("올바르지 않은 JWT 토큰입니다.");
         }
 
-        const accessToken = response.data.data;
-        if (!accessToken) {
-            throw new Error("Access token not received after signup.");
-        }
-
-        // ✅ Store token after signup
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("tokenType", "Bearer");
 
+        console.log("회원가입 성공, 토큰 저장 완료");
         return { accessToken, tokenType: "Bearer" };
     } catch (error) {
-        console.error("Signup error: ", error);
+        console.error("회원가입 실패:", error?.response?.data || error.message);
         throw error;
     }
 };
