@@ -1,0 +1,85 @@
+.signin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    gap: 10px;
+    background-color: white;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+  }  
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #0F429D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: gray;
+  }
+  
+  .register-button { 
+    font-size: 14px;
+    font-weight: normal;
+    background-color: transparent;
+    color: #0F429D;
+    text-decoration: underline;
+  }
+  
+  .register-button:hover {
+    text-decoration: none;
+  }
+  
+  .skip-button {
+    width: auto;
+    padding: 8px 12px; /* Smaller padding */
+    background-color: #888;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  .skip-button:hover {
+    background-color: #666;
+  }
+  .password-input-wrapper {
+    position: relative;
+  }
+  
+  .password-input-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* space for the toggle icon */
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+  }
+  
+  

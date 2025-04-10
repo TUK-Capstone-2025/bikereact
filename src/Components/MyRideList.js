@@ -1,75 +1,67 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./MyRideList.css";
+import { dummyRides } from "./dummyData";
+import "../Styles/Desktop/MyRideList.css";
 
 const MyRideList = () => {
-  const [rides, setRides] = useState([]);
-  const navigate = useNavigate();
+    const [rides, setRides] = useState([]);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchRides = () => {
-      const fetchedRides = [
-        {
-          id: 1,
-          name: "아침 라이딩",
-          distance: "12 km",
-          duration: "40분",
-          coordinates: [
-            { lat: 37.5665, lng: 126.978 }, // 서울시청
-            { lat: 37.5705, lng: 126.982 }, // 광화문
-            { lat: 37.5745, lng: 126.986 }, // 경복궁
-          ],
-        },
-        {
-          id: 2,
-          name: "오후 라이딩",
-          distance: "15 km",
-          duration: "50분",
-          coordinates: [
-            { lat: 37.541, lng: 127.056 }, // 잠실
-            { lat: 37.550, lng: 127.074 }, // 올림픽공원
-            { lat: 37.564, lng: 127.098 }, // 천호동
-          ],
-        },
-        {
-          id: 3,
-          name: "저녁 라이딩",
-          distance: "10 km",
-          duration: "30분",
-          coordinates: [
-            { lat: 37.498, lng: 127.027 }, // 강남역
-            { lat: 37.505, lng: 127.036 }, // 압구정
-            { lat: 37.513, lng: 127.048 }, // 청담동
-          ],
-        },
-      ];
-      setRides(fetchedRides);
-    };
+    useEffect(() => {
+        setRides(dummyRides);
 
-    fetchRides();
-  }, []);
+        // Ensure Kakao Maps API is available
+        if (window.kakao && window.kakao.maps) {
+            dummyRides.forEach((ride) => {
+                setTimeout(() => {
+                    const container = document.getElementById(`map-${ride.id}`);
+                    if (container && ride.coordinates.length > 0) {
+                        const options = {
+                            center: new window.kakao.maps.LatLng(ride.coordinates[0].lat, ride.coordinates[0].lng),
+                            level: 5,
+                        };
+                        const map = new window.kakao.maps.Map(container, options);
 
-  return (
-    <div className="my-rides-container">
-      <div className="rides-list">
-        {rides.map((ride) => (
-          <div
-            key={ride.id}
-            className="ride-item"
-            onClick={() => navigate(`/myride/${ride.id}`, { state: { coordinates: ride.coordinates } })}
-          >
-            <h2>{ride.name}</h2>
-            <p>
-              <strong>거리:</strong> {ride.distance}
-            </p>
-            <p>
-              <strong>시간:</strong> {ride.duration}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+                        // Draw the ride path
+                        const linePath = ride.coordinates.map(coord => new window.kakao.maps.LatLng(coord.lat, coord.lng));
+                        const polyline = new window.kakao.maps.Polyline({
+                            path: linePath,
+                            strokeWeight: 3,
+                            strokeColor: "#0F429D",
+                            strokeOpacity: 0.9,
+                            strokeStyle: "solid",
+                        });
+                        polyline.setMap(map);
+                    }
+                }, 500);
+            });
+        }
+    }, []);
+
+    return (
+        <div className="my-rides-container">
+            <div className="rides-list">
+                {rides.length > 0 ? (
+                    rides.map((ride) => (
+                        <div
+                            key={ride.id}
+                            className="ride-card"
+                            onClick={() => navigate(`/myride/${ride.id}`, { state: { coordinates: ride.coordinates } })}
+                        >
+                            <div className="ride-info">
+                                <h2>{ride.name}</h2>
+                                <p><strong>거리:</strong> {ride.distance}</p>
+                                <p><strong>시간:</strong> {ride.duration}</p>
+                            </div>
+                            <div id={`map-${ride.id}`} className="ride-thumbnail"></div> {/* Mini Map */}
+                        </div>
+                    ))
+                ) : (
+                    <p className="loading-text">Loading rides...</p>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default MyRideList;

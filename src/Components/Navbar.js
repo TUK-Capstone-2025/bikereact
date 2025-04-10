@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "./Navbar.css";
+import "../Styles/Desktop/Navbar.css";
 
 const Navbar = ({ isLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,7 +13,7 @@ const Navbar = ({ isLoggedIn }) => {
     <>
       {/* Top Navbar */}
       <nav className="navbar">
-        <div className="logo" onClick={() => navigate("/")}>🚴‍♂️ BikeApp</div>
+        <div className="logo" onClick={() => navigate("/")}>SFBRA WebService</div>
 
         {/* ✅ Hide menu button on login page */}
         {!isLoginPage && (

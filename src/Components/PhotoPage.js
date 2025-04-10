@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./PhotoPage.css";
+import "../Styles/Desktop/PhotoPage.css";
 
 const PhotoPage = () => {
   const { photoId } = useParams();

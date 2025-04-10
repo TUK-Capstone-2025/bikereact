@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link} from "react-router-dom";
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from "react-leaflet";import L from "leaflet";
-import "./RidePage.css";
+import "../Styles/Desktop/Ride.css";
 
 const photoIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/2991/2991231.png",
   iconSize: [30, 30],
 });
 
-const RidePage = () => {
+const Ride = () => {
   const { rideId } = useParams();
   const navigate = useNavigate();
   const [ride, setRide] = useState(null);
   const [photos, setPhotos] = useState([]);
 
-  useEffect(() => {// 추후 API Caller로 대체 예정
+  useEffect(() => {
     const rideData = {
       101: {
         name: "Morning Ride",
@@ -71,4 +71,4 @@ const RidePage = () => {
   );
 };
 
-export default RidePage;
+export default Ride;

@@ -1,0 +1,81 @@
+/* Container adjustments */
+.my-rides-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.rides-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* Ride Card */
+.ride-card {
+  width: 350px; /* Increased width */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  background: white;
+  cursor: pointer;
+  opacity: 1;
+  transform: translateX(0);
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* Mini Map Thumbnail */
+.ride-thumbnail {
+  width: 100%;
+  height: 200px; /* Increased height */
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  background: #ddd; /* Temporary background to show the box */
+}
+
+/* Ride Info */
+.ride-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.ride-info h2 {
+  font-size: 22px;
+  color: #0F429D;
+  margin: 14px 0;
+}
+
+.ride-info p {
+  font-size: 16px;
+  color: #444;
+  margin: 6px 0;
+}
+
+/* Hover Effect */
+.ride-card:hover {
+  transform: scale(1.08);
+}
+
+/* Keyframe Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading Text */
+.loading-text {
+  font-size: 18px;
+  color: #777;
+  margin-top: 20px;
+}

@@ -1,9 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import "./MainPage.css";
+import "../Styles/Desktop/Main.css";
 
-const MainPage = () => {
+const Main = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log("🔐 Access Token in MainPage:", token);
+    if (!token) {
+      console.error("❌ No token found! Redirecting to SignIn.");
+      navigate("/signin");
+    }
+  }, [navigate]);
 
   return (
     <div className="main-container">
@@ -20,4 +29,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Main;

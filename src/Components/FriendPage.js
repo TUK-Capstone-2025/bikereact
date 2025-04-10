@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import "./FriendPage.css";
+import "../Styles/Desktop/FriendPage.css";
 
 const FriendPage = () => {
   const { friendId } = useParams();

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Social.css";
+import "../Styles/Desktop/Social.css";
 import { useNavigate } from "react-router-dom";
 
 const Social = () => {

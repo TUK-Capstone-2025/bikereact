@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import "./MyPhoto.css";
+import "../Styles/Desktop/MyPhoto.css";
 import defaultPhoto from "../icon/logo512.png"; // Import default image
 
 const MyPhoto = () => {
