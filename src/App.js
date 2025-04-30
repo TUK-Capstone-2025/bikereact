@@ -11,6 +11,7 @@ import PhotoPage from "./Components/PhotoPage";
 import MyRideList from "./Components/MyRideList";
 import MyRide from "./Components/MyRide";
 import MyPhoto from "./Components/MyPhoto";
+import MyPage from "./Components/MyPage";
 
 import "./Styles/Desktop/Navbar.css";
 import "./Styles/Desktop/Main.css";
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="/myridelist" element={<MyRideList />} />
               <Route path="/myride/:rideId" element={<MyRide />} />
               <Route path="/myphoto/:photoId" element={<MyPhoto />} />
+              <Route path="/mypage"element={<MyPage/>}/>
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
