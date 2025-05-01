@@ -1,20 +1,21 @@
 /* Navbar Layout */
 .navbar {
-    width: 100%;
-    height: 50px;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5 5px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    color:  #0F429D;
-    font-size: 18px;
-    z-index: 1000;
-  }
-  
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: #0F429D;
+  font-size: 18px;
+  z-index: 1000;
+  box-sizing: border-box; /* 박스 크기 계산에 padding 포함 */
+}
+
   /* Logo */
   .logo {
     font-size: 20px;

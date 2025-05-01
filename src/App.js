@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Navbar from "./Components/Navbar";
 import Main from "./Components/Main";
 import SignIn from "./Components/SignIn";
-import SignUp from "./Components/SignUp"; // ✅ Import SignUp
+import SignUp from "./Components/SignUp";
 import Social from "./Components/Social";
 import FriendPage from "./Components/FriendPage";
 import Ride from "./Components/Ride";
@@ -12,11 +12,15 @@ import MyRideList from "./Components/MyRideList";
 import MyRide from "./Components/MyRide";
 import MyPhoto from "./Components/MyPhoto";
 import MyPage from "./Components/MyPage";
+import ChangeProfilePic from "./Components/ChangeProfilePic";
+import ChangeId from './Components/ChangeId';
+import ChangeNick from './Components/ChangeNick';
 
+import "./Styles/Desktop/App.css";
 import "./Styles/Desktop/Navbar.css";
 import "./Styles/Desktop/Main.css";
 import "./Styles/Desktop/SignIn.css";
-import "./Styles/Desktop/SignUp.css"; // ✅ Add SignUp CSS
+import "./Styles/Desktop/SignUp.css";
 import "./Styles/Desktop/Social.css";
 import "./Styles/Desktop/FriendPage.css";
 import "./Styles/Desktop/Ride.css";
@@ -50,13 +54,16 @@ export default function App() {
               <Route path="/myridelist" element={<MyRideList />} />
               <Route path="/myride/:rideId" element={<MyRide />} />
               <Route path="/myphoto/:photoId" element={<MyPhoto />} />
-              <Route path="/mypage"element={<MyPage/>}/>
+              <Route path="/mypage" element={<MyPage onSignIn={setIsSignedIn} />} />
+              <Route path="/change-profile-image" element={<ChangeProfilePic />} />
+              <Route path="/change-id" element={<ChangeId />} />
+              <Route path="/change-nick" element={<ChangeNick />} />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
             <>
               <Route path="/signin" element={<SignIn onSignIn={setIsSignedIn} />} />
-              <Route path="/signup" element={<SignUp />} /> {/* ✅ Signup Route Added */}
+              <Route path="/signup" element={<SignUp />} />
               <Route path="*" element={<Navigate to="/signin" />} />
             </>
           )}

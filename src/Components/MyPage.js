@@ -1,34 +1,51 @@
-import { useEffect, useState } from "react";
-import { getMyPage } from "./Auth";
-import "../Styles/Desktop/MyPage.css"; // 스타일 파일은 필요에 따라 생성
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { testUser } from "./dummyData";
+import "../Styles/Desktop/MyPage.css";
 
-export default function MyPage() {
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState("");
+const MyPage = ({ onSignIn }) => {
+    const [nickname, setNickname] = useState("");
+    const [userId, setUserId] = useState("");
+    const [profileImage, setProfileImage] = useState(null);
+    const navigate = useNavigate();
+    const currentUserId = localStorage.getItem("userId");
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const data = await getMyPage();
-                setUser(data);
-            } catch (err) {
-                setError("사용자 정보를 불러오는 데 실패했습니다.");
-            }
-        };
+        if (currentUserId === testUser.userId) {
+            setNickname("테스트 유저");
+            setUserId(testUser.userId);
+        } else {
+            // TODO: 실제 백엔드에서 /api/member/me 로 사용자 정보 로딩
+        }
+    }, [currentUserId]);
 
-        fetchUserData();
-    }, []);
-
-    if (error) return <div>{error}</div>;
-    if (!user) return <div>로딩 중...</div>;
+    const handleLogout = () => {
+        localStorage.clear();
+        if (onSignIn) onSignIn(false); // App.js에서 로그인 상태 관리하는 경우
+        navigate("/signin");
+    };
 
     return (
         <div className="mypage-container">
-            <h2>마이페이지</h2>
-            <p><strong>아이디:</strong> {user.userId}</p>
-            <p><strong>이메일:</strong> {user.email}</p>
-            <p><strong>닉네임:</strong> {user.nickname}</p>
-            {/* 필요한 항목 추가 */}
+            <div className="profile-section">
+                <img
+                    src={profileImage || "/default_profilePic.svg"}
+                    alt="프로필"
+                    className="profile-image"
+                />
+                <p><strong>닉네임:</strong> {nickname}</p>
+                <p><strong>아이디:</strong> {userId}</p>
+            </div>
+
+            <div className="button-section">
+                <button onClick={() => navigate("/change-profile-image")}>프로필 사진 변경</button>
+                <button onClick={() => navigate("/change-nickname")}>닉네임 변경</button>
+                <button onClick={() => navigate("/change-id")}>아이디 변경</button>
+                <button onClick={() => navigate("/change-password")}>비밀번호 변경</button>
+            </div>
+            <button className="logout-button" onClick={handleLogout}>로그아웃</button>
         </div>
     );
-}
+};
+
+export default MyPage;

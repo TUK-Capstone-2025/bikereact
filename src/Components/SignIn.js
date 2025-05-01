@@ -26,10 +26,12 @@ export default function SignIn({ onSignIn }) {
             localStorage.setItem("tokenType", "Bearer");
             localStorage.setItem("accessToken", "dummy-access-token");
             localStorage.setItem("refreshToken", "dummy-refresh-token");
+            localStorage.setItem("userId", testUser.userId);  // ✅ 요거 추가!
             onSignIn(true);
             navigate("/");
             return;
         }
+        
 
         try {
             const response = await login(values);
