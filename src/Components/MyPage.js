@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { testUser } from "./dummyData";
+import { getMyPage } from "./Auth"; // Auth.js에서 가져오기
 import "../Styles/Desktop/MyPage.css";
 
 const MyPage = ({ onSignIn }) => {
@@ -8,16 +8,27 @@ const MyPage = ({ onSignIn }) => {
     const [userId, setUserId] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const navigate = useNavigate();
-    const currentUserId = localStorage.getItem("userId");
 
     useEffect(() => {
-        if (currentUserId === testUser.userId) {
-            setNickname("테스트 유저");
-            setUserId(testUser.userId);
-        } else {
-            // TODO: 실제 백엔드에서 /api/member/me 로 사용자 정보 로딩
-        }
-    }, [currentUserId]);
+        const fetchUserData = async () => {
+            try {
+                const response = await getMyPage();
+                const userData = response?.data;
+
+                if (userData) {
+                    setNickname(userData.nickname || ""); // 백엔드 응답에 따라 키 이름 조정
+                    setUserId(userData.userId || "");
+                    setProfileImage(userData.profileImage || null);
+                }
+            } catch (error) {
+                console.error("마이페이지 데이터 불러오기 실패:", error);
+                // 로그인이 안 된 상태라면 로그인 페이지로 이동
+                navigate("/signin");
+            }
+        };
+
+        fetchUserData();
+    }, [navigate]);
 
     const handleLogout = () => {
         localStorage.clear();

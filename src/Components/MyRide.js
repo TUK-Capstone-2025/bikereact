@@ -1,27 +1,76 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { dummyRides } from "./dummyData";
+import { getMyRideDetail } from "./Auth";
+import { dummyRides } from "./dummyData"; // 더미 데이터 import
 import "../Styles/Desktop/MyRide.css";
 
 const { kakao } = window;
 
 const MyRide = () => {
     const { rideId } = useParams();
-    const ride = dummyRides.find((r) => r.id === Number(rideId)) || {};
+    const [ride, setRide] = useState(null);
 
     useEffect(() => {
-        if (!ride.coordinates) return;
+        const fetchRide = async () => {
+            try {
+                const token = localStorage.getItem("accessToken");
+
+                if (!token) {
+                    console.warn("토큰 없음: 더미 데이터 표시");
+                    const dummyRide = dummyRides.find((ride) => ride.id === parseInt(rideId));
+                    setRide(dummyRide);
+                    return;
+                }
+
+                const response = await getMyRideDetail(rideId);
+                console.log("서버 응답:", response);
+                console.log("response 객체:", response);
+                console.log("response.data.route:", response?.data?.route);
+
+                if (response.success && response.data?.route) {
+                    setRide(response.data);
+                } else {
+                    console.warn("서버 응답 형식 이상 또는 데이터 없음");
+                }
+            } catch (error) {
+                console.error("주행 데이터 불러오기 실패:", error);
+                const dummyRide = dummyRides.find((ride) => ride.id === parseInt(rideId));
+                setRide(dummyRide);
+            }
+        };
+
+        fetchRide();
+    }, [rideId]);
+
+    useEffect(() => {
+        if (!ride || !ride.route || ride.route.length === 0) {
+            console.log("지도 렌더링 스킵 - 데이터 없음");
+            return;
+        }
+
+        if (!kakao || !kakao.maps) {
+            console.error("카카오 지도 API가 로드되지 않았습니다.");
+            return;
+        }
 
         const container = document.getElementById("full-map");
-        if (!container) return;
+        if (!container) {
+            console.error("지도 container (#full-map)를 찾을 수 없습니다.");
+            return;
+        }
 
-        const options = {
-            center: new kakao.maps.LatLng(ride.coordinates[0].lat, ride.coordinates[0].lng),
+        const map = new kakao.maps.Map(container, {
+            center: new kakao.maps.LatLng(
+                ride.route[0].latitude,
+                ride.route[0].longitude
+            ),
             level: 5,
-        };
-        const map = new kakao.maps.Map(container, options);
+        });
 
-        const linePath = ride.coordinates.map(coord => new kakao.maps.LatLng(coord.lat, coord.lng));
+        const linePath = ride.route.map(
+            (point) => new kakao.maps.LatLng(point.latitude, point.longitude)
+        );
+
         const polyline = new kakao.maps.Polyline({
             path: linePath,
             strokeWeight: 5,
@@ -29,16 +78,39 @@ const MyRide = () => {
             strokeOpacity: 0.9,
             strokeStyle: "solid",
         });
+
         polyline.setMap(map);
 
+        // 경고 지점 마커 추가
+        ride.route.forEach((point) => {
+            if (point.warning === 1) {
+                const markerPosition = new kakao.maps.LatLng(point.latitude, point.longitude);
+                const marker = new kakao.maps.Marker({
+                    position: markerPosition,
+                    map: map,
+                    title: "경고 지점",
+                });
+
+                const infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:5px;">⚠ 경고 지점</div>',
+                });
+
+                kakao.maps.event.addListener(marker, "mouseover", () => infowindow.open(map, marker));
+                kakao.maps.event.addListener(marker, "mouseout", () => infowindow.close());
+            }
+        });
     }, [ride]);
+
+    if (!ride || !ride.route || ride.route.length === 0) {
+        return <p className="loading-text">라이딩 정보를 불러오는 중입니다...</p>;
+    }
 
     return (
         <div className="ride-detail-container">
-            <h1>{ride.name}</h1>
-            <p><strong>거리:</strong> {ride.distance}</p>
-            <p><strong>시간:</strong> {ride.duration}</p>
-            <div id="full-map" className="full-map"></div> {/* Full Map */}
+            <h1>기록 ID: {rideId}</h1>
+            <p><strong>시작 시각:</strong> {ride.startTime}</p>
+            <p><strong>종료 시각:</strong> {ride.endTime}</p>
+            <div id="full-map" className="full-map"></div>
         </div>
     );
 };

@@ -1,10 +1,13 @@
 /* Container adjustments */
+/* myrides-container 스타일 수정 */
 .my-rides-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   overflow: hidden;
+  width: 100%; /* 너비를 100%로 설정 */
+  min-height: 100vh; /* 화면 높이 만큼 최소 높이 설정 */
 }
 
 .rides-list {
@@ -12,6 +15,8 @@
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
+  width: 100%; /* 너비를 100%로 설정 */
+  min-height: 100vh; /* 최소 높이를 화면 높이에 맞게 설정 */
 }
 
 /* Ride Card */
@@ -26,16 +31,6 @@
   opacity: 1;
   transform: translateX(0);
   animation: slideIn 0.5s ease-out forwards;
-}
-
-/* Mini Map Thumbnail */
-.ride-thumbnail {
-  width: 100%;
-  height: 200px; /* Increased height */
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 10px;
-  background: #ddd; /* Temporary background to show the box */
 }
 
 /* Ride Info */

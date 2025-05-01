@@ -9,67 +9,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align map at the top */
   color: white;
   font-family: "Arial", sans-serif;
 }
 
 .full-map {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  margin-top: 15px;
+  width: 100%; /* Make map take up full width */
+  height: 100%; /* Make map take up full height */
+  border-radius: 0; /* Remove rounded corners to make it fill the whole screen */
+  margin-top: 0; /* Remove margin to align map to top */
 }
 
 /* Ride Information */
 .ride-info {
+  position: absolute;
+  top: 15px; /* Place ride info at the top */
   width: 90%;
   max-width: 600px;
   padding: 15px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8); /* Slightly transparent background for info */
   border-radius: 10px;
-  margin-bottom: 15px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Ensure it's on top of the map */
+  margin-top: 0;
 }
 
+/* Ride Information Text */
 .ride-info p {
   font-size: 18px;
   line-height: 1.6;
 }
 
-/* Photo Marker */
-.photo-overlay {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Circular photo on map */
-.photo-marker {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease-in-out;
-}
-
-.photo-marker:hover {
-  transform: scale(1.1);
-}
-
-/* Photo info section */
-.photo-info {
-  margin-top: 20px;
+/* Loading Text */
+.loading-text {
   text-align: center;
-}
-
-.photo-img {
-  width: 100%;
-  height: auto;
-  max-width: 500px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  margin-top: 20px;
+  color: #0F429D;
 }

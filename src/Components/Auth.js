@@ -81,7 +81,7 @@ export const register = async (userData) => {
 // 🔹 MY PAGE API
 export const getMyPage = async () => {
     try {
-        const response = await AuthApi.post("/member/me");
+        const response = await AuthApi.get("/member/me");
         console.log("서버 응답 전체:", response.data);
         return response.data;
     } catch (error) {
@@ -93,4 +93,48 @@ export const getMyPage = async () => {
         console.error("마이페이지 정보 가져오기 실패:", error);
         throw error;
     }
+};
+// 🔹 GET My Ride List (목록)
+export const getMyRideList = async () => {
+    try {
+        const response = await AuthApi.get("/record/list");
+        console.log("주행 기록 응답:", response.data);
+        return response.data?.data || [];
+    } catch (error) {
+        console.error("내 라이딩 목록 조회 실패:", error);
+        throw error;
+    }
+};
+
+
+// 🔹 GET Ride Detail by ID
+export const getMyRideDetail = async (recordId) => {
+    try {
+        const response = await AuthApi.get(`/record/my/route/${recordId}`);
+        console.log(`기록 ${recordId}의 상세 정보:`, response.data);
+        return response.data; // ✅ 전체 객체 { success, message, data: {...} } 반환
+    } catch (error) {
+        console.error("라이딩 상세 정보 가져오기 실패:", error);
+        throw error;
+    }
+};
+
+export const getMyTeam = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+        throw new Error("토큰이 없습니다. 로그인 후 다시 시도해주세요.");
+    }
+
+    const response = await fetch("/member/team", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("팀 정보 조회에 실패했습니다.");
+    }
+
+    return response.json();
 };

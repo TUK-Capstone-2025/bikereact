@@ -65,6 +65,9 @@
   }
   .password-input-wrapper {
     position: relative;
+    width: 100%; /* 추가: 아이디 박스와 같은 너비 */
+    display: flex; /* 추가: 레이아웃 일관성 */
+    flex-direction: column;
   }
   
   .password-input-wrapper input {

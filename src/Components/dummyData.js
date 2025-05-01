@@ -7,6 +7,17 @@ export const testUser = {
     nickname: "webtestNickname",  // 더미 데이터에 닉네임 추가
 };
 
+export const dummyTeam = {
+    teamId: 1,
+    teamName: "자전거 라이더즈",  // 팀 이름
+    members: [
+        { userId: "webtest", nickname: "webtestNickname" },
+        // 다른 팀원도 여기에 추가 가능
+    ],
+    description: "자전거를 좋아하는 사람들이 모인 팀입니다.",
+    createdAt: "2025-04-25",  // 팀 생성일
+};
+
 export const dummyRides = [
     {
         id: 1,

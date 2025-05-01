@@ -1,41 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { dummyRides } from "./dummyData";
-import "../Styles/Desktop/MyRideList.css";
+import { getMyRideList } from "./Auth"; // ✅ Auth.js에 정의된 함수
+//import "../Styles/Desktop/MyRideList.css";
 
 const MyRideList = () => {
     const [rides, setRides] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setRides(dummyRides);
+        const fetchRides = async () => {
+            try {
+                const data = await getMyRideList();
+                setRides(data);
+            } catch (error) {
+                console.error("주행 기록을 불러오는 중 오류 발생:", error);
+            }
+        };
 
-        // Ensure Kakao Maps API is available
-        if (window.kakao && window.kakao.maps) {
-            dummyRides.forEach((ride) => {
-                setTimeout(() => {
-                    const container = document.getElementById(`map-${ride.id}`);
-                    if (container && ride.coordinates.length > 0) {
-                        const options = {
-                            center: new window.kakao.maps.LatLng(ride.coordinates[0].lat, ride.coordinates[0].lng),
-                            level: 5,
-                        };
-                        const map = new window.kakao.maps.Map(container, options);
-
-                        // Draw the ride path
-                        const linePath = ride.coordinates.map(coord => new window.kakao.maps.LatLng(coord.lat, coord.lng));
-                        const polyline = new window.kakao.maps.Polyline({
-                            path: linePath,
-                            strokeWeight: 3,
-                            strokeColor: "#0F429D",
-                            strokeOpacity: 0.9,
-                            strokeStyle: "solid",
-                        });
-                        polyline.setMap(map);
-                    }
-                }, 500);
-            });
-        }
+        fetchRides();
     }, []);
 
     return (
@@ -44,20 +26,19 @@ const MyRideList = () => {
                 {rides.length > 0 ? (
                     rides.map((ride) => (
                         <div
-                            key={ride.id}
+                            key={ride.recordId} // ✅ 고유 key
                             className="ride-card"
-                            onClick={() => navigate(`/myride/${ride.id}`, { state: { coordinates: ride.coordinates } })}
+                            onClick={() => navigate(`/myride/${ride.recordId}`)}
                         >
                             <div className="ride-info">
-                                <h2>{ride.name}</h2>
-                                <p><strong>거리:</strong> {ride.distance}</p>
-                                <p><strong>시간:</strong> {ride.duration}</p>
+                                <h2>기록 ID: {ride.recordId}</h2>
+                                <p><strong>시작 시간:</strong> {ride.startTime}</p>
                             </div>
-                            <div id={`map-${ride.id}`} className="ride-thumbnail"></div> {/* Mini Map */}
+                            {/* 지도는 상세 페이지에서만 보여주기로 가정 */}
                         </div>
                     ))
                 ) : (
-                    <p className="loading-text">Loading rides...</p>
+                    <p className="loading-text">기록을 불러오는 중입니다...</p>
                 )}
             </div>
         </div>

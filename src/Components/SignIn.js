@@ -81,7 +81,7 @@ export default function SignIn({ onSignIn }) {
                     </div>
 
                     <div className="form-group">
-                        <button type="submit">SIGN IN</button>
+                        <button type="buttonk">SIGN IN</button>
                     </div>
                     {error && <p className="error">{error}</p>}
                 </form>
