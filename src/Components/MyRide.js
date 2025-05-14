@@ -81,24 +81,6 @@ const MyRide = () => {
 
         polyline.setMap(map);
 
-        // 경고 지점 마커 추가
-        ride.route.forEach((point) => {
-            if (point.warning === 1) {
-                const markerPosition = new kakao.maps.LatLng(point.latitude, point.longitude);
-                const marker = new kakao.maps.Marker({
-                    position: markerPosition,
-                    map: map,
-                    title: "경고 지점",
-                });
-
-                const infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="padding:5px;">⚠ 경고 지점</div>',
-                });
-
-                kakao.maps.event.addListener(marker, "mouseover", () => infowindow.open(map, marker));
-                kakao.maps.event.addListener(marker, "mouseout", () => infowindow.close());
-            }
-        });
     }, [ride]);
 
     if (!ride || !ride.route || ride.route.length === 0) {
@@ -106,10 +88,7 @@ const MyRide = () => {
     }
 
     return (
-        <div className="ride-detail-container">
-            <h1>기록 ID: {rideId}</h1>
-            <p><strong>시작 시각:</strong> {ride.startTime}</p>
-            <p><strong>종료 시각:</strong> {ride.endTime}</p>
+        <div className="ride-detail-container">     
             <div id="full-map" className="full-map"></div>
         </div>
     );

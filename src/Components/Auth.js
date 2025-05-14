@@ -120,21 +120,111 @@ export const getMyRideDetail = async (recordId) => {
 };
 
 export const getMyTeam = async () => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-        throw new Error("토큰이 없습니다. 로그인 후 다시 시도해주세요.");
+    try {
+        const response = await AuthApi.get("/member/team");
+        return response.data; // { success, message, data: { isInTeam, teamId } }
+    } catch (error) {
+        console.error("팀 정보 가져오기 실패:", error);
+        throw error;
     }
-
-    const response = await fetch("/member/team", {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error("팀 정보 조회에 실패했습니다.");
-    }
-
-    return response.json();
 };
+
+export const getTeamDetail = async (teamId) => {
+    try {
+        const response = await AuthApi.get(`/team/${teamId}`);
+        console.log("팀 상세 정보:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("팀 상세 정보 조회 실패:", error);
+        throw error;
+    }
+};
+
+export const getMemberProfile = async (memberId) => {
+    try {
+        const response = await AuthApi.get(`/team/member/profile/${memberId}`);
+        return response.data; // { success, message, data: { ...프로필 정보 } }
+    } catch (error) {
+        console.error("멤버 프로필 조회 실패:", error);
+        throw error;
+    }
+};
+export const getMemberRideList = async (memberId) => {
+    try {
+        const response = await AuthApi.get(`/record/member/${memberId}`);
+        return response.data; // { success, data: [...] }
+    } catch (error) {
+        console.error("멤버 주행 기록 조회 실패:", error);
+        throw error;
+    }
+};
+export const getOtherRideDetail = async (recordId) => {
+    const response = await AuthApi.get(`/record/other/route/${recordId}`);
+    return response.data;
+};
+export const getTeamList = async () => {
+    try {
+        const response = await AuthApi.get("/team/list");
+        return response.data; // { success, data: [...] }
+    } catch (error) {
+        console.error("팀 목록 조회 실패:", error);
+        throw error;
+    }
+};
+export const applyToTeam = async (teamId) => {
+    try {
+        const response = await AuthApi.post(`/member/applyTeam/${teamId}`);
+        return response.data; // { success: true/false, message: "..." }
+    } catch (error) {
+        console.error("팀 참가 신청 실패:", error);
+        throw error;
+    }
+};
+export const getApplyList = async () => {
+    try {
+        const response = await AuthApi.get("/member/applyList");
+        return response.data; // { success, data: [...] }
+    } catch (error) {
+        console.error("신청 목록 조회 실패:", error);
+        throw error;
+    }
+};
+export const cancelTeamApplication = async (teamId) => {
+    try {
+        const response = await AuthApi.delete("/member/cancel", {
+            data: { teamId }, // DELETE 요청의 body는 여기서 지정
+        });
+        return response.data; // { success, message }
+    } catch (error) {
+        console.error("팀 신청 취소 실패:", error);
+        throw error;
+    }
+};
+export const createTeam = async (teamData) => {
+    try {
+        const response = await AuthApi.post("/team/create", teamData);
+        return response.data; // { success, message, data }
+    } catch (error) {
+        console.error("팀 생성 실패:", error);
+        throw error;
+    }
+};
+export const getTeamApplications = async () => {
+    try {
+        const response = await AuthApi.get("/member/listMembers");
+        return response.data; // { success, data: [...] }
+    } catch (error) {
+        console.error("신청자 목록 조회 실패:", error);
+        throw error;
+    }
+};
+export const kickMemberFromTeam = async (memberId) => {
+    try {
+        const response = await AuthApi.post(`/team/kick/${memberId}`);
+        return response.data;
+    } catch (error) {
+        console.error("멤버 퇴출 실패:", error);
+        throw error;
+    }
+};
+

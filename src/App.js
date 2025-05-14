@@ -16,6 +16,11 @@ import ChangeProfilePic from "./Components/ChangeProfilePic";
 import ChangeId from './Components/ChangeId';
 import ChangeNick from './Components/ChangeNick';
 import MyTeam from "./Components/MyTeam";
+import MemberPage from "./Components/MemberPage";
+import TeamList from "./Components/TeamList";
+import ApplyTeam from "./Components/ApplyTeam";
+import MyApplications from "./Components/MyApplications";
+import CreateTeam from "./Components/CreateTeam";
 
 import "./Styles/Desktop/App.css";
 import "./Styles/Desktop/Navbar.css";
@@ -60,6 +65,11 @@ export default function App() {
               <Route path="/change-id" element={<ChangeId />} />
               <Route path="/change-nick" element={<ChangeNick />} />
               <Route path="/my-team" element={<MyTeam />} />
+              <Route path="/member/:memberId" element={<MemberPage />} />
+              <Route path="/team/list" element={<TeamList />} />
+              <Route path="/apply-team/:teamId" element={<ApplyTeam />} />
+              <Route path="/my-applications" element={<MyApplications />} />
+              <Route path="/create-team" element={<CreateTeam />} />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
