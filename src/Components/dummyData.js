@@ -1,10 +1,11 @@
 // dummyData.js
 export const testUser = {
-    userId: "webtest",
-    password: "123",
-    tokenType: "Bearer",
-    accessToken: "dummy_access_token",
-    nickname: "webtestNickname",  // 더미 데이터에 닉네임 추가
+  userId: "webtest",
+  password: "123",
+  tokenType: "Bearer",
+  accessToken: "dummy_access_token",
+  nickname: "webtestNickname",
+  profileImageUrl: "/default_profilePic.svg", // 더미 프로필 이미지 URL
 };
 
 export const dummyTeam = {
@@ -52,4 +53,70 @@ export const dummyRides = [
             { lat: 37.513, lng: 127.048 },
         ],
     },
+];
+
+// ────────────── 더미 팀 상세 정보 ──────────────
+// 실제 API에서 getTeamDetail()이 반환하는 shape에 맞춰서 작성
+export const dummyTeamDetail = {
+  // 팀 이름
+  name: "자전거 라이더즈 (더미)",
+  // 팀장(leader)는 memberId와 동일하게 'webtest'로 설정
+  leader: "webtest",
+  // memberCount는 members 배열 길이와 같아야 함
+  memberCount: 3,
+  // members 배열: 각 멤버가 { memberId, nickname, name, profileImageUrl } 형태
+  members: [
+    {
+      memberId: "webtest",
+      nickname: "webtestNickname",
+      name: "테스트 사용자",
+      profileImageUrl:
+        "https://via.placeholder.com/40?text=Web", // 더미 프로필 URL
+    },
+    {
+      memberId: "member2",
+      nickname: "멤버투",
+      name: "두번째 멤버",
+      profileImageUrl:
+        "https://via.placeholder.com/40?text=User2",
+    },
+    {
+      memberId: "member3",
+      nickname: "멤버쓰리",
+      name: "세번째 멤버",
+      profileImageUrl: null, // 프로필이 없는 경우
+    },
+  ],
+};
+// ────────────── 더미 팀 목록 ──────────────
+export const dummyTeamList = [
+  {
+    teamId: 101,
+    name: "더미 라이더즈 A",
+  },
+  {
+    teamId: 102,
+    name: "더미 라이더즈 B",
+  },
+  {
+    teamId: 103,
+    name: "더미 라이더즈 C",
+  },
+];
+export const dummyApplyList = [
+  {
+    teamId: 201,
+    teamName: "더미 팀 A",
+    status: "WAITING",    // 대기 중
+  },
+  {
+    teamId: 202,
+    teamName: "더미 팀 B",
+    status: "APPROVE",    // 승인됨
+  },
+  {
+    teamId: 203,
+    teamName: "더미 팀 C",
+    status: "REJECT",     // 거절됨
+  },
 ];

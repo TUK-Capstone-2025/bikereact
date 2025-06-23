@@ -21,6 +21,7 @@ import TeamList from "./Components/TeamList";
 import ApplyTeam from "./Components/ApplyTeam";
 import MyApplications from "./Components/MyApplications";
 import CreateTeam from "./Components/CreateTeam";
+import ChangePassword from "./Components/ChangePassword";
 
 import "./Styles/Desktop/App.css";
 import "./Styles/Desktop/Navbar.css";
@@ -64,6 +65,7 @@ export default function App() {
               <Route path="/change-profile-image" element={<ChangeProfilePic />} />
               <Route path="/change-id" element={<ChangeId />} />
               <Route path="/change-nick" element={<ChangeNick />} />
+              <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/my-team" element={<MyTeam />} />
               <Route path="/member/:memberId" element={<MemberPage />} />
               <Route path="/team/list" element={<TeamList />} />

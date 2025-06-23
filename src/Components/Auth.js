@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://2b00-1-237-205-122.ngrok-free.app/api";
+const BASE_URL = "https://339c-210-99-254-13.ngrok-free.app/api";
 
 export const AuthApi = axios.create({
     baseURL: BASE_URL,
@@ -57,26 +57,17 @@ export const login = async ({ userId, password }) => {
 
 // 🔹 SIGNUP API
 export const register = async (userData) => {
-    try {
-        const response = await AuthApi.post("/member/register", userData);
-
-        console.log("Signup Response: ", response);
-
-        const accessToken = response?.data?.data;
-        if (!accessToken) {
-            throw new Error("Access token not received after signup.");
-        }
-
-        // ✅ Store token after signup
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("tokenType", "Bearer");
-
-        return { accessToken, tokenType: "Bearer" };
-    } catch (error) {
-        console.error("Signup error: ", error);
-        throw error;
-    }
+  try {
+    const response = await AuthApi.post("/member/register", userData);
+    console.log("Signup Response:", response.data);
+    // 서버는 토큰을 반환하지 않으므로 성공 여부만 리턴
+    return response.data;  // { success, message, data: null }
+  } catch (error) {
+    console.error("Signup error:", error);
+    throw error;
+  }
 };
+
 
 // 🔹 MY PAGE API
 export const getMyPage = async () => {
@@ -96,14 +87,23 @@ export const getMyPage = async () => {
 };
 // 🔹 GET My Ride List (목록)
 export const getMyRideList = async () => {
-    try {
-        const response = await AuthApi.get("/record/list");
-        console.log("주행 기록 응답:", response.data);
-        return response.data?.data || [];
-    } catch (error) {
-        console.error("내 라이딩 목록 조회 실패:", error);
-        throw error;
+  try {
+    const response = await AuthApi.get("/record/list");
+    console.log("주행 기록 응답:", response.data);
+    return response.data;   // 정상(200) + { success, message, data }
+  } catch (error) {
+    // 404 등 에러 응답에도 JSON body를 그대로 리턴
+    if (
+      error.response &&
+      (error.response.status === 404 || error.response.status === 400) &&
+      error.response.data
+    ) {
+      console.warn("주행 기록 없음 응답:", error.response.data);
+      return error.response.data;  // { success:false, message, data:null }
     }
+    console.error("내 라이딩 목록 조회 중 예외:", error);
+    throw error;
+  }
 };
 
 
@@ -181,14 +181,15 @@ export const applyToTeam = async (teamId) => {
     }
 };
 export const getApplyList = async () => {
-    try {
-        const response = await AuthApi.get("/member/applyList");
-        return response.data; // { success, data: [...] }
-    } catch (error) {
-        console.error("신청 목록 조회 실패:", error);
-        throw error;
-    }
+  try {
+    const response = await AuthApi.get("/member/applyStatus");
+    return response.data; // { success, data: [...] }
+  } catch (error) {
+    console.error("신청 목록 조회 실패:", error);
+    throw error;
+  }
 };
+
 export const cancelTeamApplication = async (teamId) => {
     try {
         const response = await AuthApi.delete("/member/cancel", {
@@ -227,4 +228,15 @@ export const kickMemberFromTeam = async (memberId) => {
         throw error;
     }
 };
-
+export const changePassword = async ({ oldPassword, newPassword }) => {
+  try {
+    const response = await AuthApi.put("/member/change-password", {
+      oldPassword,
+      newPassword,
+    });
+    return response.data; // { success, message }
+  } catch (error) {
+    console.error("비밀번호 변경 실패:", error);
+    throw error;
+  }
+};

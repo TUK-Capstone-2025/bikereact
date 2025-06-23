@@ -1,56 +1,103 @@
+/* MyPage.css */
+
+/* ── 컨테이너: 섹션 간격을 flex gap으로 통일 ── */
 .mypage-container {
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;          /* 프로필→버튼→로그아웃 간격 */
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.mypage-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
+/* ── 프로필 섹션 ── */
 .profile-section {
-    margin-bottom: 30px;
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: left;
 }
 
+/* 프로필 이미지 */
 .profile-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 10px;
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  border: 2px solid #1758A8;
 }
 
+/* 레이블 + 값 한 줄 */
+.profile-row {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;      /* 세로 여백을 살짝 줄임 */
+}
+
+/* 레이블 */
+.profile-label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 1em;  /* 탭 한 칸 정도 띄움 */
+  white-space: nowrap;
+}
+
+/* 값 */
+.profile-value {
+  color: #1758A8;
+  flex: 1;
+  word-break: break-all;
+}
+
+/* ── 버튼 섹션 ── */
+.button-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;           /* 버튼 간격을 살짝 줄임 */
+}
+
+/* 공통 버튼 */
 .button-section button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    background-color: #0F429D;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  background-color: #1758A8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .button-section button:hover {
-    background-color: #0c367c;
+  background-color: #0c367c;
 }
 
+/* ── 로그아웃 버튼 ── */
 .logout-button {
-    background-color: #ff4d4f; /* 빨간색 배경 */
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #d9363e; /* 마우스 올렸을 때 진한 빨강 */
-  }
-  
+  width: 100%;
+  padding: 10px;
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
+}
+
+/* ── 로딩 / 오류 텍스트 ── */
+.loading-text,
+.error-text {
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
+  margin-top: 20px;
+}

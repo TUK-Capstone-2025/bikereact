@@ -1,0 +1,128 @@
+/* ApplyTeam.css */
+
+/* 컨테이너 */
+.apply-team-container {
+  max-width: 600px;
+  margin: 80px auto 40px;
+  padding: 0 16px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+/* 헤더 */
+.apply-team-container h2 {
+  font-size: 2rem;
+  color: #0F429D;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.apply-team-container h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* 설명/정보 */
+.apply-team-container p {
+  font-size: 1rem;
+  margin: 6px 0;
+  line-height: 1.4;
+}
+.apply-team-container p strong {
+  color: #0F429D;
+}
+
+/* 팀원 목록 제목 */
+.apply-team-container h4 {
+  font-size: 1.25rem;
+  margin: 24px 0 12px;
+  color: #0F429D;
+  border-bottom: 2px solid #0F429D;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+/* 팀원 목록 */
+.team-member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+/* 팀원 아이템 카드 */
+.team-member-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.team-member-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 멤버 이름 */
+.team-member-item span {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  word-break: keep-all;
+}
+
+/* 참가 신청 버튼 */
+.apply-button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  padding: 14px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #0F429D;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.apply-button:hover {
+  background-color: #0c367c;
+  transform: translateY(-1px);
+}
+
+/* 상태 메시지 */
+.success-text,
+.error-text {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.success-text {
+  color: #28a745;
+}
+.error-text {
+  color: #dc3545;
+}
+
+/* 반응형 조정 */
+@media (max-width: 480px) {
+  .apply-team-container {
+    margin: 60px 10px;
+    padding: 0 12px;
+  }
+  .team-member-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .apply-button {
+    max-width: 100%;
+    padding: 12px 0;
+  }
+}

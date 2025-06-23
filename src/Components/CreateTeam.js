@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTeam } from "./Auth";
+import "../Styles/Desktop/CreateTeam.css";
 
 const CreateTeam = () => {
     const navigate = useNavigate();

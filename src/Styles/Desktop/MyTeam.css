@@ -1,0 +1,164 @@
+/* MyTeam.css */
+
+/* ── 컨테이너 ── */
+.team-info {
+  max-width: 600px;
+  margin: 80px auto 40px; /* top navbar 높이 고려 */
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+.team-info h2 {
+  text-align: center;
+  color: #1758A8;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+.team-info p {
+  text-align: center;
+  font-size: 1rem;
+  margin: 4px 0 16px;
+}
+.team-info h3 {
+  font-size: 1.3rem;
+  margin: 24px 0 12px;
+  color: #1758A8;
+}
+
+/* ── 리스트 초기화 ── */
+.team-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── 팀원 항목 ── */
+.team-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* ── 프로필 썸네일 ── */
+.member-thumbnail {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+  border: 2px solid #1758A8;
+}
+
+/* ── 프로필·메달·닉네임 영역 ── */
+.member-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0; /* overflow 대비 */
+  margin-left: 12px;
+}
+.medal-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.member-nickname {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.member-name {
+  font-size: 0.9rem;
+  color: #555;
+  margin-left: 4px;
+}
+
+/* ── 팀장 왕관 ── */
+.team-member-item.leader .member-nickname::after {
+  content: " 👑";
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ── 버튼 그룹 ── */
+.member-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+/* ── 프로필 보기 버튼 ── */
+.profile-button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: #1758A8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.profile-button:hover {
+  background-color: #124582;
+}
+
+/* ── 퇴출 버튼 ── */
+.kick-button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: #DC3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.kick-button:hover {
+  background-color: #A71D2A;
+}
+
+/* ── 로딩 / 오류 텍스트 ── */
+.loading-text,
+.error-text {
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
+  margin-top: 40px;
+}
+
+/* ── 팀 없음 안내 ── */
+.no-team {
+  text-align: center;
+  margin: 100px 20px;
+  color: #555;
+}
+.no-team h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.no-team p {
+  font-size: 1rem;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 480px) {
+  .team-member-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .member-actions {
+    margin-top: 8px;
+    margin-left: 0;
+  }
+}

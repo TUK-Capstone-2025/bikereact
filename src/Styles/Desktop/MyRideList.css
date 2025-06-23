@@ -1,76 +1,87 @@
-/* Container adjustments */
-/* myrides-container 스타일 수정 */
+/* MyRideList.css */
+
+/* ── 전체 래퍼 ── */
 .my-rides-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
   padding: 20px;
-  overflow: hidden;
-  width: 100%; /* 너비를 100%로 설정 */
-  min-height: 100vh; /* 화면 높이 만큼 최소 높이 설정 */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
+/* ── 카드 리스트: 1열 ── */
 .rides-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-  width: 100%; /* 너비를 100%로 설정 */
-  min-height: 100vh; /* 최소 높이를 화면 높이에 맞게 설정 */
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
 }
 
-/* Ride Card */
+/* ── 개별 카드: 가로형 ── */
 .ride-card {
-  width: 350px; /* Increased width */
-  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 200px;
+  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  opacity: 1;
-  transform: translateX(0);
-  animation: slideIn 0.5s ease-out forwards;
+  position: relative;
 }
 
-/* Ride Info */
+/* ── 호버 시 카드 효과만, 정보는 그대로 ── */
+.ride-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+}
+
+/* ── 왼쪽: 지도 썸네일 ── */
+.ride-thumbnail-map {
+  flex: 0 0 40%;
+  height: 100%;
+}
+
+/* ── 오른쪽: 정보 영역 (항상 보임) ── */
 .ride-info {
-  padding: 20px;
-  text-align: center;
+  flex: 1;
+  padding: 16px 24px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  box-sizing: border-box;
+  /* Make sure it sits above the map */
+  position: relative;
+  z-index: 1;
+  opacity: 1;          /* Never hidden */
+  transform: none;     /* No translate from hover */
 }
 
+/* ── 정보 텍스트 ── */
 .ride-info h2 {
-  font-size: 22px;
-  color: #0F429D;
-  margin: 14px 0;
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  color: #1758A8;
+  line-height: 1.2;
 }
 
 .ride-info p {
-  font-size: 16px;
+  margin: 0;
+  font-size: 1rem;
   color: #444;
-  margin: 6px 0;
+  line-height: 1.4;
 }
 
-/* Hover Effect */
-.ride-card:hover {
-  transform: scale(1.08);
-}
-
-/* Keyframe Animation */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Loading Text */
+/* ── 로딩 텍스트 ── */
 .loading-text {
-  font-size: 18px;
+  text-align: center;
+  font-size: 1.1rem;
   color: #777;
-  margin-top: 20px;
+  margin-top: 40px;
 }

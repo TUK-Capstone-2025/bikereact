@@ -1,0 +1,68 @@
+/* CreateTeam.css */
+
+.create-team-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-team-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #1758A8;
+}
+
+.create-team-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-team-container input,
+.create-team-container textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.create-team-container textarea {
+  min-height: 100px;
+}
+
+.create-team-container button {
+  padding: 12px;
+  background-color: #1758A8;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.create-team-container button:hover {
+  background-color: #124582;
+}
+
+.error-text,
+.success-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
+
+.error-text {
+  color: #dc3545;
+}
+
+.success-text {
+  color: #28a745;
+}
