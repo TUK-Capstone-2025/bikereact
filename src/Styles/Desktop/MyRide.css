@@ -1,51 +1,80 @@
-/* Fullscreen layout */
-.ride-detail-container {
-  width: 100vw;
-  height: 100vh;
+/* global reset & full-height */
+html, body, #root {
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+/* container */
+.my-ride-detail-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   overflow: hidden;
-  background-color: white; /* Dark blue theme */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Align map at the top */
-  color: white;
-  font-family: "Arial", sans-serif;
+  z-index: 0;
 }
 
-.full-map {
-  width: 100%; /* Make map take up full width */
-  height: 100%; /* Make map take up full height */
-  border-radius: 0; /* Remove rounded corners to make it fill the whole screen */
-  margin-top: 0; /* Remove margin to align map to top */
-}
-
-/* Ride Information */
-.ride-info {
+/* background map */
+.my-ride-full-map {
   position: absolute;
-  top: 15px; /* Place ride info at the top */
-  width: 90%;
-  max-width: 600px;
-  padding: 15px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.8); /* Slightly transparent background for info */
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 10; /* Ensure it's on top of the map */
-  margin-top: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
 }
 
-/* Ride Information Text */
-.ride-info p {
-  font-size: 18px;
-  line-height: 1.6;
+/* ── 상단 정보 박스 (둥글고 작은 흰 박스) ── */
+.my-ride-info {
+  position: absolute;
+  top: 68px;                     /* 네비 바로 아래 (네비 높이+4px) */
+  left: 50%;                     /* 가로 중앙 기준점 */
+  transform: translateX(-50%);   /* 진짜 중앙으로 */
+  max-width: 360px;              /* 박스 최대 너비 */
+  width: 90%;                    /* 화면 폭이 좁으면 90% 사용 */
+  background: #ffffff;
+  border-radius: 12px;           /* 모서리 둥글게 */
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-/* Loading Text */
-.loading-text {
+/* 로그인 유저 영역 */
+.my-ride-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.my-ride-user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+.my-ride-user-nickname {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* 타이틀 & 텍스트 */
+.my-ride-info h1 {
+  margin: 4px 0 8px;
+  font-size: 1.1rem;
+  color: #0F429D;
+}
+.my-ride-info p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+}
+
+/* loading / error 메시지 */
+.my-ride-loading-text {
+  position: absolute;
+  top: 50%; width: 100%;
   text-align: center;
-  font-size: 18px;
-  margin-top: 20px;
-  color: #1758A8;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #0F429D;
+  z-index: 2;
 }

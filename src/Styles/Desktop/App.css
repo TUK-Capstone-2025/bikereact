@@ -1,4 +1,15 @@
-/* Ensure all content starts below the navbar */
+/* App.css */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;        /* 네비바 실제 높이 */
+  z-index: 1000;
+}
+
+/* 모든 페이지 콘텐츠를 네비 아래로 밀어줍니다 */
 .page-container {
-  padding-top: 60px; /* 50px 보다 조금 더 여유 있게 설정 */
+  padding-top: 64px;   /* 네비바 높이와 맞춤 */
 }

@@ -32,3 +32,17 @@
   font-size: 14px;
   font-weight: normal;
 }
+
+/* ── 모바일 대응 ── */
+@media (max-width: 600px) {
+  .social-container {
+    padding-left: 0;
+    align-items: center;
+    padding: 20px 0;
+  }
+  .button-container {
+    width: 80%;        /* 90% → 80% */
+    max-width: 300px;  /* 최대 300px로 제한 */
+  }
+}
+

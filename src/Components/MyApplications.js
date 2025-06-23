@@ -9,24 +9,23 @@ const MyApplications = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 신청 내역 가져오는 함수
   const fetchApplications = async () => {
     const currentUserId = localStorage.getItem("userId") || "";
 
-    // 웹 테스트 모드: dummyApplyList 사용
+    // 웹 테스트 모드
     if (currentUserId === testUser.userId) {
       setApplications(dummyApplyList);
       setLoading(false);
       return;
     }
 
-    // 일반 모드: 실제 API 호출
+    // 실제 API 호출
     try {
       const res = await getApplyList();
       if (res.success) {
         setApplications(res.data);
       } else {
-        throw new Error("신청 내역을 불러오지 못했습니다.");
+        throw new Error(res.message || "신청 내역을 불러오지 못했습니다.");
       }
     } catch (err) {
       setError(err.message || "오류 발생");
@@ -39,13 +38,11 @@ const MyApplications = () => {
     fetchApplications();
   }, []);
 
-  // 신청 취소 핸들러
   const handleCancel = async (teamId) => {
     if (!window.confirm("정말로 이 팀 신청을 취소하시겠습니까?")) return;
 
     const currentUserId = localStorage.getItem("userId") || "";
     if (currentUserId === testUser.userId) {
-      // 웹 테스트 모드
       alert("더미 모드: 신청이 취소되었습니다.");
       setApplications((prev) =>
         prev.map((item) =>
@@ -55,7 +52,6 @@ const MyApplications = () => {
       return;
     }
 
-    // 일반 모드
     try {
       const res = await cancelTeamApplication(teamId);
       if (res.success) {
@@ -74,6 +70,7 @@ const MyApplications = () => {
       case "APPROVE":
         return "승인됨";
       case "WAITING":
+      case "PENDING":
         return "대기 중";
       case "REJECT":
         return "거절됨";
@@ -91,7 +88,7 @@ const MyApplications = () => {
       {applications.length === 0 ? (
         <p>신청한 팀이 없습니다.</p>
       ) : (
-        <ul>
+        <ul className="applications-list">
           {applications.map((team) => (
             <li key={team.teamId} className="application-item">
               <div className="application-info">
@@ -101,8 +98,11 @@ const MyApplications = () => {
               <span className={`status-badge ${team.status.toLowerCase()}`}>
                 {getStatusLabel(team.status)}
               </span>
-              {team.status === "WAITING" && (
-                <button onClick={() => handleCancel(team.teamId)}>
+              {(team.status === "WAITING" || team.status === "PENDING") && (
+                <button
+                  className="cancel-button"
+                  onClick={() => handleCancel(team.teamId)}
+                >
                   신청 취소
                 </button>
               )}

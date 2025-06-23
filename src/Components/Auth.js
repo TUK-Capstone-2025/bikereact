@@ -219,6 +219,28 @@ export const getTeamApplications = async () => {
         throw error;
     }
 };
+// 🔹 멤버 승인 API
+export const approveMember = async (memberId) => {
+  try {
+    const response = await AuthApi.post("/team/approve", { memberId });
+    return response.data; // { success, message, data }
+  } catch (error) {
+    console.error("멤버 승인 실패:", error);
+    throw error;
+  }
+};
+
+// 🔹 멤버 거절 API
+export const rejectMember = async (memberId) => {
+  try {
+    const response = await AuthApi.post("/team/reject", { memberId });
+    return response.data; // { success, message, data }
+  } catch (error) {
+    console.error("멤버 거절 실패:", error);
+    throw error;
+  }
+};
+
 export const kickMemberFromTeam = async (memberId) => {
     try {
         const response = await AuthApi.post(`/team/kick/${memberId}`);
@@ -237,6 +259,18 @@ export const changePassword = async ({ oldPassword, newPassword }) => {
     return response.data; // { success, message }
   } catch (error) {
     console.error("비밀번호 변경 실패:", error);
+    throw error;
+  }
+};
+// 🔹 아이디 변경 API
+export const changeUserId = async (newUserId) => {
+  try {
+    const response = await AuthApi.post("/member/changeId", {
+      newUserId,
+    });
+    return response.data; // { success, message, data }
+  } catch (error) {
+    console.error("아이디 변경 실패:", error);
     throw error;
   }
 };

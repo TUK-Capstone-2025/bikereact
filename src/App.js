@@ -24,17 +24,6 @@ import CreateTeam from "./Components/CreateTeam";
 import ChangePassword from "./Components/ChangePassword";
 
 import "./Styles/Desktop/App.css";
-import "./Styles/Desktop/Navbar.css";
-import "./Styles/Desktop/Main.css";
-import "./Styles/Desktop/SignIn.css";
-import "./Styles/Desktop/SignUp.css";
-import "./Styles/Desktop/Social.css";
-import "./Styles/Desktop/FriendPage.css";
-import "./Styles/Desktop/Ride.css";
-import "./Styles/Desktop/PhotoPage.css";
-import "./Styles/Desktop/MyRideList.css";
-import "./Styles/Desktop/MyRide.css";
-import "./Styles/Desktop/MyPhoto.css";
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);

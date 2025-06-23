@@ -1,67 +1,78 @@
-// Ride.js
+// src/components/Ride.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getOtherRideDetail } from "./Auth";
 import { testUser, dummyRides } from "./dummyData";
-import "../Styles/Desktop/MyRide.css";
+import "../Styles/Desktop/Ride.css";  // <-- 다른 prefix 를 쓰는 전용 CSS
 
 const { kakao } = window;
 
-const Ride = () => {
+// "25.05.01 18:22:35" 같은 포맷을 JS Date로 변환
+function parseCustomDate(s) {
+  const [ymd, hms] = s.split(" ");
+  const [yy, mm, dd] = ymd.split(".").map(Number);
+  const [HH, MM, SS] = hms.split(":").map(Number);
+  return new Date(2000 + yy, mm - 1, dd, HH, MM, SS);
+}
+
+// Haversine 공식: 두 점 사이 거리(미터)
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const toRad = v => (v * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+export default function Ride() {
   const { rideId } = useParams();
   const [ride, setRide] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [map, setMap] = useState(null);
-  const [showBike, setShowBike] = useState(false);
 
-  // 1) 데이터 페칭
+  // 데이터 페칭
   useEffect(() => {
-    const fetchRide = async () => {
-      const currentUserId = localStorage.getItem("userId") || "";
+    async function fetchRide() {
+      setLoading(true);
+      const uid = localStorage.getItem("userId") || "";
+      let data = null;
 
-      // 웹 테스트 모드: 더미 사용
-      if (currentUserId === testUser.userId) {
-        const dummy = dummyRides.find(r => r.id === parseInt(rideId, 10));
-        if (dummy) {
-          const route = dummy.coordinates.map(c => ({
-            latitude: c.lat,
-            longitude: c.lng,
-            warning: c.warning || 0,
-          }));
-          setRide({ ...dummy, route });
-        }
-        return;
+      if (uid === testUser.userId) {
+        data = dummyRides.find(r => r.id === +rideId);
+      } else {
+        try {
+          const resp = await getOtherRideDetail(rideId);
+          if (resp.success) data = resp.data;
+        } catch {}
       }
 
-      // 일반 모드: 실제 API 호출
-      try {
-        const resp = await getOtherRideDetail(rideId);
-        if (resp.success && resp.data?.route) {
-          setRide(resp.data);
-        } else {
-          console.warn("타인 주행 데이터 없음 또는 이상 응답");
-        }
-      } catch (err) {
-        console.error("타인 주행 데이터 불러오기 실패:", err);
-        const dummy = dummyRides.find(r => r.id === parseInt(rideId, 10));
-        if (dummy) {
-          const route = dummy.coordinates.map(c => ({
-            latitude: c.lat,
-            longitude: c.lng,
-            warning: c.warning || 0,
-          }));
-          setRide({ ...dummy, route });
-        }
+      if (data) {
+        const route = (data.route || data.coordinates || []).map(c => ({
+          latitude: c.lat ?? c.latitude,
+          longitude: c.lng ?? c.longitude,
+        }));
+        setRide({
+          ...data,
+          route,
+          startTime: data.startTime,
+          endTime: data.endTime,
+        });
       }
-    };
 
+      setLoading(false);
+    }
     fetchRide();
   }, [rideId]);
 
-  // 2) 지도 생성, Polyline + 마커, map 인스턴스 저장
+  // 지도 생성 & bounds
   useEffect(() => {
     if (!ride?.route?.length || !kakao?.maps) return;
-
-    const container = document.getElementById("full-map");
+    const container = document.getElementById("other-ride-full-map");
     if (!container) return;
 
     const kakaoMap = new kakao.maps.Map(container, {
@@ -72,67 +83,59 @@ const Ride = () => {
       level: 5,
     });
 
-    const linePath = ride.route.map(
-      pt => new kakao.maps.LatLng(pt.latitude, pt.longitude)
+    const path = ride.route.map(
+      p => new kakao.maps.LatLng(p.latitude, p.longitude)
     );
     new kakao.maps.Polyline({
-      path: linePath,
+      path,
       strokeWeight: 5,
       strokeColor: "#0F429D",
       strokeOpacity: 0.9,
-      strokeStyle: "solid",
     }).setMap(kakaoMap);
 
-    // warning 지점 마커
-    ride.route.forEach(pt => {
-      if (pt.warning === 1) {
-        const marker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(pt.latitude, pt.longitude),
-          map: kakaoMap,
-          title: "⚠ 경고 지점",
-        });
-        const info = new kakao.maps.InfoWindow({
-          content: '<div style="padding:5px;">⚠ 경고 지점</div>',
-        });
-        kakao.maps.event.addListener(marker, "mouseover", () =>
-          info.open(kakaoMap, marker)
-        );
-        kakao.maps.event.addListener(marker, "mouseout", () =>
-          info.close()
-        );
-      }
-    });
+    const bounds = new kakao.maps.LatLngBounds();
+    path.forEach(latlng => bounds.extend(latlng));
+    kakaoMap.setBounds(bounds);
 
     setMap(kakaoMap);
-    setShowBike(false);
   }, [ride]);
 
-  // 3) 자전거 도로 토글
-  const toggleBicycle = () => {
-    if (!map) return;
-    if (showBike) {
-      map.removeOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
-    } else {
-      map.addOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
-    }
-    setShowBike(!showBike);
-  };
-
-  if (!ride?.route?.length) {
-    return <p className="loading-text">라이딩 정보를 불러오는 중입니다...</p>;
+  if (loading) {
+    return <p className="other-ride-loading-text">라이딩 정보를 불러오는 중입니다...</p>;
+  }
+  if (!ride) {
+    return <p className="other-ride-loading-text">표시할 라이딩 정보가 없습니다.</p>;
   }
 
+  // 주행 시간 계산
+  let durationText = "";
+  if (ride.startTime && ride.endTime) {
+    const diff = parseCustomDate(ride.endTime) - parseCustomDate(ride.startTime);
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    durationText = `${h}시간 ${m}분 ${s}초`;
+  }
+
+  // 총 거리 계산 (km)
+  const totalMeters = ride.route.reduce((sum, cur, i, arr) => {
+    if (i === 0) return 0;
+    const prev = arr[i - 1];
+    return sum + haversine(prev.latitude, prev.longitude, cur.latitude, cur.longitude);
+  }, 0);
+  const distanceKm = (totalMeters / 1000).toFixed(2);
+
   return (
-    <div className="ride-detail-container">
-      <h1>기록 ID: {rideId}</h1>
-      {ride.startTime && <p><strong>시작 시각:</strong> {ride.startTime}</p>}
-      {ride.endTime && <p><strong>종료 시각:</strong> {ride.endTime}</p>}
-      <button className="bike-toggle-button" onClick={toggleBicycle}>
-        {showBike ? "자전거 도로 숨기기" : "자전거 도로 표시하기"}
-      </button>
-      <div id="full-map" className="full-map"></div>
+    <div className="other-ride-detail-container">
+      <div className="other-ride-info">
+        <h1>Record ID: {rideId}</h1>
+        {ride.startTime && <p>시작: {ride.startTime}</p>}
+        {ride.endTime && <p>종료: {ride.endTime}</p>}
+        {durationText && <p>주행 시간: {durationText}</p>}
+        <p>총 거리: {distanceKm} km</p>
+      </div>
+
+      <div id="other-ride-full-map" className="other-ride-full-map" />
     </div>
   );
-};
-
-export default Ride;
+}

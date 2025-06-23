@@ -1,4 +1,3 @@
-// ApplyTeam.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTeamDetail, applyToTeam } from "./Auth";
@@ -13,12 +12,13 @@ const ApplyTeam = () => {
 
   useEffect(() => {
     const fetchTeam = async () => {
+      setLoading(true);
       try {
         const res = await getTeamDetail(teamId);
-        if (!res.success) throw new Error("팀 정보를 불러오지 못했습니다.");
+        if (!res.success) throw new Error(res.message || "팀 정보를 불러오지 못했습니다.");
         setTeam(res.data);
-      } catch {
-        setError("팀 정보 조회 실패");
+      } catch (err) {
+        setError(err.message || "팀 정보 조회 실패");
       } finally {
         setLoading(false);
       }
@@ -40,26 +40,40 @@ const ApplyTeam = () => {
     }
   };
 
-  if (loading) return <p>팀 정보를 불러오는 중입니다...</p>;
+  if (loading) return <p className="loading-text">팀 정보를 불러오는 중입니다...</p>;
   if (error)   return <p className="error-text">{error}</p>;
+  if (!team)   return null;
+
+  // 서버 응답에 members 대신 sortedMembersByDistance 로 넘어오면 이쪽을 사용
+  const members = team.sortedMembersByDistance || [];
 
   return (
     <div className="apply-team-container">
-      <h2>팀 참가 신청</h2>
-      <h3>{team.name}</h3>
-      <p><strong>설명:</strong> {team.description || "설명 없음"}</p>
-      <p><strong>팀원 수:</strong> {team.memberCount}명</p>
+      <h2 className="title">팀 참가 신청</h2>
+      <div className="team-info">
+        <h3 className="team-name">{team.name}</h3>
+        <p className="team-desc">
+          <strong>설명:</strong> {team.description || "설명 없음"}
+        </p>
+        <p className="team-count">
+          <strong>팀원 수:</strong> {team.memberCount}명
+        </p>
+      </div>
 
-      <h4>팀원 목록</h4>
-      <ul className="team-member-list">
-        {team.members.map((member) => (
-          <li key={member.memberId} className="team-member-item">
-            <span>
-              {member.nickname} ({member.name})
-            </span>
-          </li>
-        ))}
-      </ul>
+      <h4 className="member-list-title">팀원 목록</h4>
+      {members.length === 0 ? (
+        <p className="no-members">참여한 팀원이 없습니다.</p>
+      ) : (
+        <ul className="team-member-list">
+          {members.map((m, idx) => (
+            <li key={m.memberId} className="team-member-item">
+              <span className="member-nickname">
+                {m.nickname} ({m.userId})
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <button onClick={handleApply} className="apply-button">
         이 팀에 참가 신청

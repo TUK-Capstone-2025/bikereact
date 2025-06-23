@@ -1,118 +1,97 @@
 /* MyApplications.css */
-
 .my-applications-container {
   max-width: 600px;
   margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
 }
 
 .my-applications-container h2 {
-  margin-bottom: 20px;
-  font-size: 1.5rem;
   text-align: center;
   color: #1758A8;
+  margin-bottom: 24px;
 }
 
-.my-applications-container p {
-  margin: 8px 0;
-  line-height: 1.4;
-}
-
-.my-applications-container ul {
+/* 리스트 전체 */
+.applications-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
 /* 각 신청 항목 */
-.my-applications-container .application-item {
-  position: relative;
-  padding: 16px;
-  padding-right: 100px; /* 배지 공간 확보 */
-  margin-bottom: 16px;
-  background: #f9f9f9;
-  border-radius: 6px;
+.application-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
   border: 1px solid #e0e0e0;
-  display: flex;
-  flex-direction: column;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
 }
 
-/* 마지막 항목 여백 제거 */
-.my-applications-container .application-item:last-child {
-  margin-bottom: 0;
+/* 왼쪽 정보: 팀 이름 + ID */
+.application-info {
+  flex: 1;                   /* 남는 공간 차지 */
+  min-width: 0;              /* overflow 방지 */
 }
-
-/* 팀 이름 & ID 그룹 */
-.my-applications-container .application-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.my-applications-container .application-info strong {
-  font-size: 1.1rem;
+.application-info strong {
+  font-size: 1rem;
   color: #333;
 }
-
-.my-applications-container .application-info p {
-  font-size: 0.95rem;
+.application-info p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
   color: #555;
 }
 
-/* 신청 취소 버튼 */
-.my-applications-container button {
-  align-self: flex-start;
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #1758A8;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+/* 상태 배지 */
+.status-badge {
+  flex-shrink: 0;
+  margin: 0 16px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+.status-badge.approve {
+  background-color: #28a745;
+  color: white;
+}
+.status-badge.waiting,
+.status-badge.pending {
+  background-color: #6c757d;
+  color: white;
+}
+.status-badge.reject {
+  background-color: #dc3545;
+  color: white;
 }
 
-.my-applications-container button:hover {
+/* 취소 버튼 */
+.cancel-button {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background-color: #1758A8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.cancel-button:hover {
   background-color: #124582;
 }
 
-/* 로딩 / 오류 텍스트 */
+/* 로딩/오류 텍스트 */
 .loading-text,
 .error-text {
   text-align: center;
   font-size: 1rem;
   color: #777;
   margin-top: 20px;
-}
-
-/* 상태 배지 */
-.status-badge {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  transform: translateY(-50%);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #fff;
-  white-space: nowrap;
-}
-
-/* 배지 색상 */
-.status-badge.approve {
-  background-color: #28a745; /* 승인됨 - 초록 */
-}
-
-.status-badge.waiting {
-  background-color: #6c757d; /* 대기 중 - 회색 */
-}
-
-.status-badge.reject {
-  background-color: #dc3545; /* 거절됨 - 빨강 */
 }

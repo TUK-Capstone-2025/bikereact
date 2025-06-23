@@ -1,3 +1,4 @@
+// src/components/Navbar.js
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getMyPage } from "./Auth";
@@ -9,11 +10,10 @@ const Navbar = ({ isLoggedIn }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const DEFAULT_AVATAR = "/default_profilePic.svg";
 
   const isLoginPage =
     location.pathname === "/signin" || location.pathname === "/signup";
-  const isMyRidePage = /^\/myride\/\d+/.test(location.pathname);
+  const isRidePage = /^\/(myride|ride)\/\d+/.test(location.pathname);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -21,7 +21,7 @@ const Navbar = ({ isLoggedIn }) => {
       if (currentUserId === testUser.userId) {
         setUser({
           nickname: testUser.nickname,
-          profileImageUrl: testUser.profileImageUrl,
+          profileImage: testUser.profileImageUrl,
         });
         return;
       }
@@ -31,15 +31,13 @@ const Navbar = ({ isLoggedIn }) => {
           const data = res.data;
           setUser({
             nickname: data.nickname,
-            // 여기 key를 profileImageUrl 로 맞춰줍니다
-            profileImageUrl: data.profileImageUrl || "/default_profilePic.svg",
+            profileImage: data.profileImageUrl || "/default_profilePic.svg",
           });
         }
       } catch {
-        // 비로그인 시 무시
+        // ignore
       }
     };
-
     if (!isLoginPage) loadUser();
   }, [isLoginPage]);
 
@@ -56,7 +54,7 @@ const Navbar = ({ isLoggedIn }) => {
 
         {!isLoginPage && (
           <div className="navbar-buttons">
-            {isMyRidePage && (
+            {isRidePage && (
               <button
                 className="bike-toggle-button"
                 onClick={handleToggleBike}
@@ -81,7 +79,7 @@ const Navbar = ({ isLoggedIn }) => {
             {user && (
               <div className="menu-header">
                 <img
-                  src={user.profileImageUrl}
+                  src={user.profileImage}
                   alt="프로필"
                   className="menu-profile-img"
                 />
@@ -91,8 +89,9 @@ const Navbar = ({ isLoggedIn }) => {
             <Link to="/mypage" onClick={() => setMenuOpen(false)}>
               마이페이지
             </Link>
-            <Link to="/terms" onClick={() => setMenuOpen(false)}>
-              사용 약관
+            {/* replaced "사용 약관" with "나의 팀" */}
+            <Link to="/my-team" onClick={() => setMenuOpen(false)}>
+              나의 팀
             </Link>
           </div>
         </div>

@@ -1,0 +1,95 @@
+.applicants-container {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+}
+
+.applicants-container h3 {
+  font-size: 1.3rem;
+  color: #1758A8;
+  margin-bottom: 12px;
+}
+
+/* 전체 신청자 리스트 */
+.applicants-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 개별 신청자 카드 */
+.applicant-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  justify-content: space-between;
+}
+
+/* 신청자 정보 영역 */
+.applicant-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.applicant-info .avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ddd;
+  border: 2px solid #1758A8;
+}
+.applicant-info .nickname {
+  font-size: 1rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 수락/거절 버튼 그룹 */
+.applicant-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.applicant-actions button {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.applicant-actions .accept-button {
+  background-color: #28a745;
+  color: white;
+}
+.applicant-actions .accept-button:hover {
+  background-color: #218838;
+}
+.applicant-actions .reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+.applicant-actions .reject-button:hover {
+  background-color: #c82333;
+}
+
+/* 빈 상태 메시지 */
+.no-applicants {
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
+  margin-top: 20px;
+}

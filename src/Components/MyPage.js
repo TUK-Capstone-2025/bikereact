@@ -32,7 +32,7 @@ const MyPage = ({ onSignIn }) => {
         if (userData) {
           setNickname(userData.nickname || "");
           setUserId(userData.userId || "");
-          setProfileImage(userData.profileImage || null);
+          setProfileImage(userData.profileImageUrl || null);
         } else {
           // response.data가 없으면 로그인이 안 된 상태라 가정
           navigate("/signin");
@@ -77,7 +77,7 @@ const MyPage = ({ onSignIn }) => {
         <button onClick={() => navigate("/change-profile-image")}>
           프로필 사진 변경
         </button>
-        <button onClick={() => navigate("/change-nickname")}>
+        <button onClick={() => navigate("/change-nick")}>
           닉네임 변경
         </button>
         <button onClick={() => navigate("/change-id")}>아이디 변경</button>

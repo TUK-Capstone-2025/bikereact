@@ -1,87 +1,62 @@
-/* MyRideList.css */
-
-/* ── 전체 래퍼 ── */
-.my-rides-container {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
+/* global reset */
+html, body, #root {
+  margin: 0;
+  padding: 0;
 }
 
-/* ── 카드 리스트: 1열 ── */
-.rides-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 750px;
-  margin: 0 auto;
+/* 리스트 컨테이너 */
+.my-ride-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  font-family: Arial, sans-serif;
 }
 
-/* ── 개별 카드: 가로형 ── */
-.ride-card {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 200px;
+/* 로딩/메시지 */
+.my-ride-list__loading {
+  text-align: center;
+  padding: 32px;
+  font-size: 1rem;
+  color: #0F429D;
+}
+
+/* 카드 */
+.my-ride-list__card {
   background: #fff;
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+.my-ride-list__card:hover {
+  transform: translateY(-4px);
+}
+
+/* 썸네일 */
+.my-ride-list__thumb {
+  width: 100%;
+  padding-top: 56%;    /* 16:9 비율 */
   position: relative;
+  overflow: hidden;
+}
+.my-ride-list__thumb > div {
+  position: absolute !important;
+  top: 0; left: 0; right: 0; bottom: 0;
 }
 
-/* ── 호버 시 카드 효과만, 정보는 그대로 ── */
-.ride-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+/* 상세 정보 박스 */
+.my-ride-list__details {
+  background: #ffffff;
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #333;
 }
-
-/* ── 왼쪽: 지도 썸네일 ── */
-.ride-thumbnail-map {
-  flex: 0 0 40%;
-  height: 100%;
+.my-ride-list__details p {
+  margin: 4px 0;
 }
-
-/* ── 오른쪽: 정보 영역 (항상 보임) ── */
-.ride-info {
-  flex: 1;
-  padding: 16px 24px;
-  background: #fafafa;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  box-sizing: border-box;
-  /* Make sure it sits above the map */
-  position: relative;
-  z-index: 1;
-  opacity: 1;          /* Never hidden */
-  transform: none;     /* No translate from hover */
-}
-
-/* ── 정보 텍스트 ── */
-.ride-info h2 {
-  margin: 0 0 8px;
-  font-size: 1.4rem;
+.my-ride-list__details strong {
   color: #1758A8;
-  line-height: 1.2;
-}
-
-.ride-info p {
-  margin: 0;
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.4;
-}
-
-/* ── 로딩 텍스트 ── */
-.loading-text {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #777;
-  margin-top: 40px;
 }

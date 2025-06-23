@@ -1,51 +1,75 @@
-import React, { useEffect, useState } from "react";
-import { getTeamApplications } from "./Auth";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  getTeamApplications,
+  approveMember,
+  rejectMember,
+} from "./Auth";
+import "../Styles/Desktop/TeamApplicationsList.css";
 
-const TeamApplicationsList = () => {
-    const [applicants, setApplicants] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const TeamApplicationsList = ({ onApproveOrReject }) => {
+  const [apps, setApps] = useState([]);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchApplicants = async () => {
-            try {
-                const res = await getTeamApplications();
-                if (res.success) {
-                    setApplicants(res.data);
-                } else {
-                    setError("신청자 목록을 불러오지 못했습니다.");
-                }
-            } catch (err) {
-                setError("오류 발생: " + err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const fetchApps = async () => {
+    try {
+      const res = await getTeamApplications();
+      if (res.success) {
+        setApps(res.data);
+      }
+    } catch {
+      setError("신청자 목록 조회 실패");
+    }
+  };
 
-        fetchApplicants();
-    }, []);
+  useEffect(() => {
+    fetchApps();
+  }, []); // 화살표 안에 호출되므로 cleanup이 없습니다
 
-    if (loading) return <p>신청자 목록을 불러오는 중입니다...</p>;
-    if (error) return <p>{error}</p>;
+  const handleApprove = async (memberId) => {
+    try {
+      const res = await approveMember(memberId);
+      if (res.success) {
+        await fetchApps();
+        onApproveOrReject();
+      } else {
+        setError(res.message);
+      }
+    } catch {
+      setError("승인 중 오류가 발생했습니다.");
+    }
+  };
 
-    if (applicants.length === 0) return <p>신청자가 없습니다.</p>;
+  const handleReject = async (memberId) => {
+    try {
+      const res = await rejectMember(memberId);
+      if (res.success) {
+        await fetchApps();
+        onApproveOrReject();
+      } else {
+        setError(res.message);
+      }
+    } catch {
+      setError("거절 중 오류가 발생했습니다.");
+    }
+  };
 
-    return (
-        <div className="team-applications-list">
-            <h3>팀 참가 신청자</h3>
-            <ul>
-                {applicants.map((applicant) => (
-                    <li key={applicant.memberId}>
-                        <Link to={`/member/${applicant.memberId}`}>
-                            {applicant.nickname} ({applicant.name})
-                        </Link>
-                        {/* 수락/거절 버튼은 후속 구현 가능 */}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  if (error) return <p className="error-text">{error}</p>;
+  if (!apps.length) return <p className="no-applicants">신청자가 없습니다.</p>;
+
+  return (
+    <div className="applications-list">
+      <h3>팀 참가 신청자</h3>
+      <ul>
+        {apps.map((app) => (
+          <li key={app.memberId} className="application-item">
+            <span>{app.nickname} ({app.userId})</span>
+            <button onClick={() => handleApprove(app.memberId)}>수락</button>
+            <button onClick={() => handleReject(app.memberId)}>거절</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default TeamApplicationsList;

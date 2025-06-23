@@ -1,61 +1,55 @@
 // src/pages/ChangeId.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { changeUserId } from "./Auth";       // Auth.js 경로에 맞춰 조정
+import "../Styles/Desktop/ChangeId.css";
 
-const ChangeId = () => {
-  const [newUserId, setNewUserId] = useState('');
-  const [message, setMessage] = useState('');
+export default function ChangeId() {
+  const [newUserId, setNewUserId] = useState("");
+  const [message, setMessage]     = useState("");
+  const [status, setStatus]       = useState("");
+  const navigate = useNavigate();
 
   const handleChangeId = async (e) => {
     e.preventDefault();
-
-    const tokenType = localStorage.getItem('tokenType');
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (!tokenType || !accessToken) {
-      setMessage('로그인이 필요합니다.');
-      return;
-    }
+    setMessage("");
+    setStatus("");
 
     try {
-      const response = await fetch('/api/member/changeId', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${tokenType} ${accessToken}`,
-        },
-        body: JSON.stringify({ newUserId }),
-      });
+      const res = await changeUserId(newUserId);
+      if (res.success) {
+        // 1) localStorage에 저장해 두지 않으면
+        //    다른 페이지에서 여전히 이전 userId를 읽어가고
+        //    “로그인되지 않음” 취급됩니다.
+        localStorage.setItem("userId", newUserId);
 
-      if (response.ok) {
-        setMessage('아이디가 성공적으로 변경되었습니다.');
+        setStatus("아이디가 성공적으로 변경되었습니다.");
       } else {
-        const errorData = await response.json();
-        setMessage(errorData.message || '아이디 변경 실패');
+        setMessage(res.message || "아이디 변경에 실패했습니다.");
       }
     } catch (error) {
-      setMessage('서버 오류가 발생했습니다.');
+      console.error(error);
+      setMessage("서버 오류가 발생했습니다.");
     }
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">아이디 변경</h2>
-      <form onSubmit={handleChangeId} className="space-y-4">
+    <div className="changeid-container">
+      <h2>아이디 변경</h2>
+
+      <form onSubmit={handleChangeId} className="changeid-form">
         <input
           type="text"
           value={newUserId}
           onChange={(e) => setNewUserId(e.target.value)}
           placeholder="새로운 아이디 입력"
-          className="w-full p-2 border rounded"
           required
         />
-        <button type="button" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          아이디 변경
-        </button>
+        <button type="submit">아이디 변경</button>
       </form>
-      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+
+      {status && <p className="changeid-success">{status}</p>}
+      {message && <p className="changeid-error">{message}</p>}
     </div>
   );
-};
-
-export default ChangeId;
+}

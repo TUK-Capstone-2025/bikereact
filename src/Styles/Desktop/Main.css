@@ -1,6 +1,9 @@
+/* Main.css */
+
+/* ── 컨테이너 ── */
 .main-container {
   display: flex;
-  flex-direction: column;  /* 세로 스크롤용으로 바꿔도 되지만, 그대로 두셔도 됩니다 */
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   max-width: 750px;
@@ -8,27 +11,18 @@
   margin: 40px auto;
   padding: 7%;
   box-sizing: border-box;
-  overflow-y: auto;       /* 세로 스크롤 허용 */
+  overflow-y: auto;
+  background: #f5f7fa; /* Optional: 페이지 배경 색 */
 }
 
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 60%;
-  max-width: 600px;
-  /* height:100% 지우기 */
-}
-
-/* ↓ 여기만 바꿔주세요 ↓ */
+/* ── 버튼 공통 ── */
 .main-button {
   width: 100%;
-  height: auto;           /* 내용에 맞춰 늘어나도록 */
-  min-height: 140px;      /* 최소 높이 설정 (원하는 만큼) */
-  padding: 32px;     /* 위아래 32px*/
+  min-height: 180px;        /* 높이를 좀 더 늘려서 세로로 꽉찬 느낌 */
+  padding: 40px 32px;       /* 상하 40px, 좌우 32px */
   text-align: left;
   background-color: #1758A8;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -36,8 +30,44 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 24px;      /* 버튼 간 간격 */
 }
 
+/* 호버 */
 .main-button:hover {
   background-color: #124582;
+}
+
+/* ── 제목 (타이틀) ── */
+.main-button .title {
+  font-size: 1.8rem;        /* 크게 */
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+/* ── 부제목 ── */
+.main-button .subtitle {
+  font-size: 1.1rem;        /* 타이틀 대비 확연히 작게 */
+  font-weight: normal;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 480px) {
+  .main-container {
+    padding: 5%;
+  }
+  .main-button {
+    min-height: 160px;
+    padding: 32px 24px;
+  }
+  .main-button .title {
+    font-size: 1.6rem;
+  }
+  .main-button .subtitle {
+    font-size: 1rem;
+  }
 }

@@ -1,54 +1,74 @@
-// src/pages/ChangeNick.js
-import React, { useState } from 'react';
-import { testUser } from './dummyData'; // 더미 데이터 import
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getMyPage } from "./Auth";      // 실제 API 호출용
+import { testUser } from "./dummyData";  // 더미 모드용
+import "../Styles/Desktop/ChangeNick.css";
 
 const ChangeNick = () => {
-  const [newNickname, setNewNickname] = useState('');
-  const [message, setMessage] = useState('');
-  const [nickname, setNickname] = useState(testUser.nickname);  // 현재 닉네임 상태 추가
+  const [newNickname, setNewNickname] = useState("");
+  const [message, setMessage]         = useState("");
+  const [nickname, setNickname]       = useState("");
+  const navigate = useNavigate();
 
-  const handleChangeNick = async (e) => {
+  // ① 초기 닉네임 로드
+  useEffect(() => {
+    const currentUserId = localStorage.getItem("userId") || "";
+    if (currentUserId === testUser.userId) {
+      // 웹테스트 모드
+      setNickname(testUser.nickname);
+    } else {
+      // 실제 모드: API 호출
+      getMyPage()
+        .then((res) => {
+          if (res.success && res.data.nickname) {
+            setNickname(res.data.nickname);
+          } else {
+            navigate("/signin");
+          }
+        })
+        .catch(() => {
+          navigate("/signin");
+        });
+    }
+  }, [navigate]);
+
+  const handleChangeNick = (e) => {
     e.preventDefault();
-
-    const tokenType = testUser.tokenType;
-    const accessToken = testUser.accessToken;
-
-    if (!tokenType || !accessToken) {
-      setMessage('로그인이 필요합니다.');
+    if (!newNickname.trim()) {
+      setMessage("새 닉네임을 입력해 주세요.");
       return;
     }
 
-    try {
-      // 더미 데이터에서 닉네임을 실제로 변경
-      testUser.nickname = newNickname;  // 더미 데이터에서 닉네임 업데이트
-      setNickname(newNickname);  // UI에 변경된 닉네임 반영
-
-      setMessage('닉네임이 성공적으로 변경되었습니다.');
-    } catch (error) {
-      setMessage('서버 오류가 발생했습니다.');
+    const currentUserId = localStorage.getItem("userId") || "";
+    if (currentUserId === testUser.userId) {
+      // 더미 모드
+      testUser.nickname = newNickname;
+      setNickname(newNickname);
+      setMessage("더미 모드: 닉네임이 변경되었습니다.");
+    } else {
+      // 실제 모드: TODO: API 호출 로직
+      // 예: await changeNickname(newNickname);
+      setMessage("서버 모드는 아직 구현되지 않았습니다.");
     }
+    setNewNickname("");
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">닉네임 변경</h2>
-      <form onSubmit={handleChangeNick} className="space-y-4">
+    <div className="changenick-container">
+      <h2>닉네임 변경</h2>
+      <form onSubmit={handleChangeNick} className="changenick-form">
         <input
           type="text"
+          placeholder="새로운 닉네임 입력"
           value={newNickname}
           onChange={(e) => setNewNickname(e.target.value)}
-          placeholder="새로운 닉네임 입력"
-          className="w-full p-2 border rounded"
-          required
         />
-        <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          닉네임 변경
-        </button>
+        <button type="submit">변경하기</button>
       </form>
-      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
-      <div className="mt-4 text-center">
-        <p>현재 닉네임: {nickname}</p> {/* 변경된 닉네임 표시 */}
-      </div>
+      {message && <p className="changenick-message">{message}</p>}
+      <p className="changenick-current">
+        현재 닉네임: <span className="current-value">{nickname}</span>
+      </p>
     </div>
   );
 };

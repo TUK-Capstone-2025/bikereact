@@ -3,7 +3,7 @@
 /* ── 컨테이너 ── */
 .team-info {
   max-width: 600px;
-  margin: 80px auto 40px; /* top navbar 높이 고려 */
+  margin: 80px auto 40px; /* navbar 높이 고려 */
   padding: 0 16px;
   font-family: Arial, sans-serif;
   color: #333;
@@ -43,6 +43,7 @@
   padding: 12px;
   margin-bottom: 12px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  flex-wrap: nowrap; /* 절대 줄바꿈 금지 */
 }
 
 /* ── 프로필 썸네일 ── */
@@ -54,45 +55,43 @@
   object-fit: cover;
   background: #eee;
   border: 2px solid #1758A8;
+  margin-right: 12px;
 }
 
-/* ── 프로필·메달·닉네임 영역 ── */
-.member-details {
+/* ── 메달·닉네임·왕관 한 줄 고정 ── */
+.member-info {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
-  min-width: 0; /* overflow 대비 */
-  margin-left: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .medal-icon {
+  display: inline-flex;
+  flex: 0 0 1.5rem;
+  justify-content: center;
   font-size: 1.2rem;
   line-height: 1;
 }
 .member-nickname {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.member-name {
-  font-size: 0.9rem;
-  color: #555;
+.leader-crown {
+  flex: 0 0 auto;
   margin-left: 4px;
-}
-
-/* ── 팀장 왕관 ── */
-.team-member-item.leader .member-nickname::after {
-  content: " 👑";
-  margin-left: 4px;
-  vertical-align: middle;
+  font-size: 1rem;
 }
 
 /* ── 버튼 그룹 ── */
 .member-actions {
   display: flex;
+  align-items: center;    /* ← 여기 추가 */
   gap: 8px;
   flex-shrink: 0;
   margin-left: 16px;
@@ -117,15 +116,15 @@
 .kick-button {
   padding: 6px 12px;
   font-size: 0.9rem;
-  background-color: #DC3545;
-  color: #fff;
+  background-color: #C82333; /* 진한 빨강으로 조정 */
+  color: #FFFFFF;            /* 흰 글씨 */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 .kick-button:hover {
-  background-color: #A71D2A;
+  background-color: #922E3E; /* hover 시 조금 더 짙게 */
 }
 
 /* ── 로딩 / 오류 텍스트 ── */
@@ -154,11 +153,9 @@
 /* ── 반응형 ── */
 @media (max-width: 480px) {
   .team-member-item {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: nowrap;
   }
   .member-actions {
-    margin-top: 8px;
     margin-left: 0;
   }
 }

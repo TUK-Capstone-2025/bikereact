@@ -1,30 +1,94 @@
-.ride-page-container {
-    max-width: 600px;
-    margin: auto;
-    text-align: center;
+/* global reset & full-height */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* 컨테이너 */
+.other-ride-detail-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 배경 지도 */
+.other-ride-full-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+/* 상단 정보 박스 */
+.other-ride-info {
+  position: absolute;
+  top: 68px;                     /* 네비 바로 아래 */
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 360px;
+  width: 90%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* 로그인 유저 (필요시) */
+.other-ride-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.other-ride-user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+.other-ride-user-nickname {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* 타이틀 & 텍스트 */
+.other-ride-info h1 {
+  margin: 4px 0 8px;
+  font-size: 1.1rem;
+  color: #0F429D;
+}
+.other-ride-info p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+}
+
+/* 로딩 / 에러 텍스트 */
+.other-ride-loading-text {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #0F429D;
+  z-index: 2;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .other-ride-info {
+    top: 56px;  /* 네비 높이에 맞춰 조정 */
+    width: calc(100% - 32px);
   }
-  
-  .ride-page-container p {
-    font-size: 18px;
-    margin: 5px 0;
-  }
-  
-  .ride-map {
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-    margin-top: 10px;
-  }
-  
-  .ride-page-container button {
-    margin-top: 20px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .photo-thumbnail {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
+}

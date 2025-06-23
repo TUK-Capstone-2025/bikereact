@@ -1,6 +1,6 @@
-/* ChangeId.css */
+/* ChangeNick.css */
 
-.changeid-container {
+.changenick-container {
   max-width: 400px;
   margin: 80px auto;
   padding: 24px;
@@ -10,27 +10,27 @@
   font-family: Arial, sans-serif;
 }
 
-.changeid-container h2 {
+.changenick-container h2 {
   font-size: 1.5rem;
   color: #0F429D;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.changeid-form {
+.changenick-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.changeid-form input {
+.changenick-form input {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.changeid-form button {
+.changenick-form button {
   padding: 10px;
   font-size: 1rem;
   background-color: #0F429D;
@@ -41,13 +41,25 @@
   transition: background-color 0.2s ease;
 }
 
-.changeid-form button:hover {
+.changenick-form button:hover {
   background-color: #0c367c;
 }
 
-.changeid-message {
+.changenick-message {
   margin-top: 16px;
   text-align: center;
   color: #dc3545;
   font-size: 0.95rem;
+}
+
+.changenick-current {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333333;
+}
+
+.current-value {
+  font-weight: bold;
+  color: #0F429D;
 }
